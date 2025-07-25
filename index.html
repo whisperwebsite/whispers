@@ -31,6 +31,21 @@
       max-width: 600px;
       font-size: 1.2rem;
       line-height: 1.6;
+      background: rgba(255, 255, 255, 0.02);
+      padding: 20px;
+      border-radius: 8px;
+      box-shadow: 0 0 10px rgba(255,255,255,0.1);
+      overflow-y: auto;
+      max-height: 50vh;
+    }
+    #ghost-input {
+      background: none;
+      border: none;
+      color: #aaa;
+      font-size: 1.2rem;
+      margin-top: 1rem;
+      outline: none;
+      caret-color: #e6e6e6;
     }
     @keyframes flicker {
       0%, 19%, 21%, 23%, 25%, 54%, 56%, 100% {
@@ -48,13 +63,17 @@
     <div id="messages">
       <p>Welcome back. We’ve been watching.</p>
     </div>
+    <input id="ghost-input" autocomplete="off" placeholder="Start typing...">
   </div>
+
   <script>
     const messages = document.getElementById('messages');
+    const input = document.getElementById('ghost-input');
     let idleTime = 0;
     let backspaceCount = 0;
+    let typedBuffer = "";
 
-    // Idle time whispers
+    // Idle whispers
     setInterval(() => {
       idleTime++;
       if (idleTime === 10) addMessage("You're still here. Good.");
@@ -62,34 +81,61 @@
       if (idleTime === 60) addMessage("Still not moving. We are.");
     }, 1000);
 
-    // Reset idle on interaction
     document.onmousemove = document.onkeydown = () => idleTime = 0;
 
-    // Typing watcher
-    document.addEventListener('keydown', (e) => {
-      if (e.key === 'Backspace') {
-        backspaceCount++;
-        if (backspaceCount === 3) addMessage("Undoing reality, are we?");
-        if (backspaceCount === 7) addMessage("Still correcting yourself? Curious.");
-      } else {
-        if (Math.random() < 0.02) addMessage(randomSnark());
-      }
-    });
-
-    // Mouse watcher
+    // Mouse paranoia
     let lastMouseX = 0;
     document.addEventListener('mousemove', (e) => {
       const dx = Math.abs(e.clientX - lastMouseX);
       lastMouseX = e.clientX;
-      if (dx > 300 && Math.random() < 0.3) {
-        addMessage("Fast moves. Nervous?");
-      }
+      if (dx > 300 && Math.random() < 0.3) addMessage("Fast moves. Nervous?");
     });
 
-    // Random messages
+    // Random whispers
     setInterval(() => {
       if (Math.random() < 0.1) addMessage(randomWhisper());
     }, 8000);
+
+    // Typing interference
+    input.addEventListener('input', (e) => {
+      const val = input.value;
+      const lastChar = val.slice(-1);
+
+      if (lastChar === ' ') {
+        if (typedBuffer.toLowerCase().includes("hello")) {
+          input.value = val.replace("hello", "help");
+          addMessage("You meant 'help', right?");
+        }
+
+        if (typedBuffer.length > 12 && Math.random() < 0.3) {
+          addMessage("That word choice is... revealing.");
+        }
+
+        typedBuffer = "";
+      } else {
+        typedBuffer += lastChar;
+      }
+
+      if (Math.random() < 0.015) addMessage("Are you sure that's what you want to say?");
+    });
+
+    // Key analysis
+    input.addEventListener('keydown', (e) => {
+      if (e.key === 'Backspace') {
+        backspaceCount++;
+        if (backspaceCount === 3) addMessage("Undoing reality, are we?");
+        if (backspaceCount === 7) addMessage("Still correcting yourself? Curious.");
+      }
+      if (e.key === 'Enter') {
+        e.preventDefault();
+        addMessage(`You said: "${input.value}"`);
+        if (input.value.toLowerCase().includes("whoami")) {
+          addMessage("You are the observed.");
+        }
+        input.value = "";
+        typedBuffer = "";
+      }
+    });
 
     function addMessage(text) {
       const p = document.createElement('p');
@@ -98,24 +144,16 @@
       messages.scrollTop = messages.scrollHeight;
     }
 
-    function randomSnark() {
-      const lines = [
-        "Interesting keystroke...",
-        "Wow. That's how you type?",
-        "You seem... deliberate.",
-        "Going somewhere with this?",
-        "Nice use of the spacebar."
-      ];
-      return lines[Math.floor(Math.random() * lines.length)];
-    }
-
     function randomWhisper() {
       const lines = [
         "This isn’t your first visit, is it?",
         "We remember everything.",
-        "There's someone else here.",
+        "There’s someone else here.",
         "You're not typing. Why?",
-        "You don’t think it ends here, right?"
+        "You don’t think it ends here, right?",
+        "Have you checked behind you?",
+        "You’re not the only one typing...",
+        "We saw you delete that."
       ];
       return lines[Math.floor(Math.random() * lines.length)];
     }
