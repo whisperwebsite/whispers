@@ -102,12 +102,9 @@
     // Live action trolling engine
     function troll(action) {
       const phrases = [
-        `You moved the mouse again. Classic panic move.`,
         `Clicking won't save you.`,
         `We saw that.`,
         `Left click? Bold choice.`,
-        `Hovering like you’re unsure.`,
-        `Fast movement detected. Someone’s getting nervous.`,
         `Idle time increasing... but we’re still watching.`,
         `Click registered. Why though?`,
         `Every move tells us more.`,
@@ -121,7 +118,6 @@
       log.scrollTop = log.scrollHeight;
     }
 
-    document.addEventListener('mousemove', () => troll('mousemove'));
     document.addEventListener('click', () => troll('click'));
 
     let idleSeconds = 0;
@@ -131,7 +127,7 @@
       if (idleSeconds === 30) troll("idle 30s");
     }, 1000);
     
-    document.onmousemove = document.onkeydown = () => idleSeconds = 0;
+    document.onkeydown = () => idleSeconds = 0;
 
     write("[BOOT] Neural echo initialized.");
     write("[TRACE] Keystrokes linked to live feed.");
