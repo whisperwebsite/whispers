@@ -2,36 +2,50 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>WhisperWeb - You're Being Watched</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>WhisperWeb</title>
+  <link href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&display=swap" rel="stylesheet">
   <style>
-    @import url('https://fonts.googleapis.com/css2?family=Share+Tech+Mono&display=swap');
+    * { margin: 0; padding: 0; box-sizing: border-box; }
 
     body {
-      margin: 0;
-      padding: 0;
-      background: linear-gradient(135deg, #000 0%, #111 100%);
-      color: #00ffcc;
       font-family: 'Share Tech Mono', monospace;
-      overflow: hidden;
+      background: url('https://i.imgur.com/jxWqIBf.jpg') center/cover fixed;
+      color: #00ffe1;
       display: flex;
+      overflow: hidden;
+      height: 100vh;
     }
+
+    body::before {
+      content: '';
+      position: fixed;
+      top: 0; left: 0; right: 0; bottom: 0;
+      background: rgba(0,0,0,0.7);
+      backdrop-filter: blur(4px);
+      pointer-events: none;
+      z-index: 0;
+    }
+
     #screen, #log {
+      width: 50%;
       padding: 20px;
       height: 100vh;
       overflow-y: auto;
       white-space: pre-wrap;
-      box-sizing: border-box;
-      width: 50%;
-      backdrop-filter: blur(2px);
+      z-index: 1;
+      position: relative;
     }
+
     #screen {
-      border-right: 1px solid #00ffcc;
-      background: rgba(0, 0, 0, 0.3);
+      border-right: 1px solid #00ffe1;
+      background: linear-gradient(to bottom, rgba(0,0,0,0.4), rgba(0,0,0,0.7));
     }
+
     #log {
-      background: rgba(0, 20, 20, 0.3);
+      background: linear-gradient(to bottom, rgba(0,10,10,0.4), rgba(0,0,0,0.8));
     }
+
     input {
       position: fixed;
       bottom: 20px;
@@ -39,28 +53,72 @@
       width: calc(50% - 40px);
       padding: 12px;
       background: #000;
-      color: #00ffcc;
-      border: 2px solid #00ffcc;
-      font-family: 'Share Tech Mono', monospace;
+      color: #00ffe1;
+      border: 2px solid #00ffe1;
+      font-family: inherit;
       font-size: 1rem;
       z-index: 10;
-      box-shadow: 0 0 10px #00ffcc33;
+      box-shadow: 0 0 10px #00ffe177;
     }
+
     .glitch {
-      animation: flicker 0.4s infinite alternate;
-      text-shadow: 0 0 5px #00ffee, 0 0 10px #00ffee88;
+      animation: glitch 1s infinite;
     }
-    @keyframes flicker {
-      from { opacity: 1; }
-      to { opacity: 0.4; }
+
+    @keyframes glitch {
+      0% { text-shadow: 2px 0 red, -2px 0 cyan; }
+      20% { text-shadow: -2px -2px red, 2px 2px cyan; }
+      40% { text-shadow: 2px 2px red, -2px -2px cyan; }
+      60% { text-shadow: 0 0 red, 0 0 cyan; }
+      100% { text-shadow: 2px 0 red, -2px 0 cyan; }
     }
+
     ::selection {
-      background: #00ffee;
-      color: #000;
+      background: #00ffe1;
+      color: black;
+    }
+
+    .bg-eye {
+      position: fixed;
+      top: 20%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      z-index: 0;
+      opacity: 0.04;
+      pointer-events: none;
+    }
+
+    .bg-eye img {
+      width: 400px;
+      filter: grayscale(100%) blur(1px);
+      animation: float 12s ease-in-out infinite;
+    }
+
+    @keyframes float {
+      0%, 100% { transform: translate(-50%, -50%) scale(1); }
+      50% { transform: translate(-50%, -55%) scale(1.05); }
+    }
+
+    .scanlines::after {
+      content: "";
+      position: fixed;
+      top: 0; left: 0; width: 100%; height: 100%;
+      background-image: repeating-linear-gradient(
+        to bottom, 
+        rgba(0, 255, 255, 0.05), 
+        rgba(0, 255, 255, 0.05) 1px, 
+        transparent 1px, 
+        transparent 3px
+      );
+      pointer-events: none;
+      z-index: 100;
     }
   </style>
 </head>
-<body>
+<body class="scanlines">
+  <div class="bg-eye">
+    <img src="https://media.giphy.com/media/26FL1soZ3STRDSLGU/giphy.gif" alt="watching eye">
+  </div>
   <div id="screen"></div>
   <div id="log"></div>
   <input id="userInput" autocomplete="off" placeholder="Type something..." />
@@ -106,13 +164,12 @@
         if (val) {
           write(`> ${val}`);
           const response = mockResponse(val);
-          write(response, true);
+          setTimeout(() => write(response, true), 500);
         }
         input.value = '';
       }
     });
 
-    // Live action trolling engine
     function troll(action) {
       const phrases = [
         `Clicking won't save you.`,
@@ -124,6 +181,7 @@
         `You’re being analyzed. Don’t act natural.`,
         `We’re mapping your pattern. It's chaotic.`,
         `Double click? Overcompensating?`,
+        `Cursor movement erratic. Nervous?`,
       ];
       const line = document.createElement('div');
       line.textContent = `[TRACK] ${phrases[Math.floor(Math.random() * phrases.length)]}`;
@@ -136,11 +194,25 @@
     let idleSeconds = 0;
     setInterval(() => {
       idleSeconds++;
-      if (idleSeconds === 10) troll("idle 10s");
-      if (idleSeconds === 30) troll("idle 30s");
+      if (idleSeconds === 10 || idleSeconds === 30 || idleSeconds === 60) {
+        troll("idle");
+      }
     }, 1000);
     
     document.onkeydown = () => idleSeconds = 0;
+
+    // Random paranoia lines
+    const paranoia = [
+      "Another visitor typed the same word. Seconds ago.",
+      "There’s someone watching you. Not us.",
+      "You’re typing like someone else we knew.",
+      "Anomaly. This input wasn’t expected.",
+    ];
+    setInterval(() => {
+      if (Math.random() < 0.2) {
+        write(`[ALERT] ${paranoia[Math.floor(Math.random() * paranoia.length)]}`, true);
+      }
+    }, 12000);
 
     write("[BOOT] Neural echo initialized.");
     write("[TRACE] Keystrokes linked to live feed.");
