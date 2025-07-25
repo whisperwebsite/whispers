@@ -3,160 +3,119 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>You Were Never Here</title>
+  <title>You Are Being Watched</title>
   <style>
     body {
       margin: 0;
       padding: 0;
-      background: #0b0b0b;
-      color: #e6e6e6;
-      font-family: "Courier New", monospace;
+      background-color: black;
+      color: #00FF00;
+      font-family: monospace;
       overflow: hidden;
     }
-    #container {
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-      align-items: center;
+    #screen {
+      padding: 20px;
       height: 100vh;
-      padding: 20px;
-      text-align: center;
-    }
-    h1 {
-      font-size: 2.5rem;
-      margin-bottom: 1rem;
-      animation: flicker 3s infinite;
-    }
-    #messages {
-      max-width: 600px;
-      font-size: 1.2rem;
-      line-height: 1.6;
-      background: rgba(255, 255, 255, 0.02);
-      padding: 20px;
-      border-radius: 8px;
-      box-shadow: 0 0 10px rgba(255,255,255,0.1);
       overflow-y: auto;
-      max-height: 50vh;
+      box-sizing: border-box;
+      white-space: pre-wrap;
     }
-    #ghost-input {
-      background: none;
-      border: none;
-      color: #aaa;
-      font-size: 1.2rem;
-      margin-top: 1rem;
-      outline: none;
-      caret-color: #e6e6e6;
+    .glitch {
+      animation: flicker 0.3s infinite alternate;
     }
     @keyframes flicker {
-      0%, 19%, 21%, 23%, 25%, 54%, 56%, 100% {
-        opacity: 1;
-      }
-      20%, 24%, 55% {
-        opacity: 0.5;
-      }
+      from { opacity: 1; }
+      to { opacity: 0.6; }
+    }
+    #overlay {
+      position: fixed;
+      bottom: 10px;
+      right: 10px;
+      font-size: 0.75rem;
+      color: red;
+      opacity: 0.5;
     }
   </style>
 </head>
 <body>
-  <div id="container">
-    <h1>You Were Never Here</h1>
-    <div id="messages">
-      <p>Welcome back. We’ve been watching.</p>
-    </div>
-    <input id="ghost-input" autocomplete="off" placeholder="Start typing...">
-  </div>
+  <div id="screen"></div>
+  <div id="overlay"></div>
 
   <script>
-    const messages = document.getElementById('messages');
-    const input = document.getElementById('ghost-input');
+    const screen = document.getElementById('screen');
+    const overlay = document.getElementById('overlay');
+    let inputBuffer = '';
     let idleTime = 0;
-    let backspaceCount = 0;
-    let typedBuffer = "";
+    let mouseMoves = 0;
 
-    // Idle whispers
-    setInterval(() => {
-      idleTime++;
-      if (idleTime === 10) addMessage("You're still here. Good.");
-      if (idleTime === 30) addMessage("We enjoy the silence.");
-      if (idleTime === 60) addMessage("Still not moving. We are.");
-    }, 1000);
-
-    document.onmousemove = document.onkeydown = () => idleTime = 0;
-
-    // Mouse paranoia
-    let lastMouseX = 0;
-    document.addEventListener('mousemove', (e) => {
-      const dx = Math.abs(e.clientX - lastMouseX);
-      lastMouseX = e.clientX;
-      if (dx > 300 && Math.random() < 0.3) addMessage("Fast moves. Nervous?");
-    });
-
-    // Random whispers
-    setInterval(() => {
-      if (Math.random() < 0.1) addMessage(randomWhisper());
-    }, 8000);
-
-    // Typing interference
-    input.addEventListener('input', (e) => {
-      const val = input.value;
-      const lastChar = val.slice(-1);
-
-      if (lastChar === ' ') {
-        if (typedBuffer.toLowerCase().includes("hello")) {
-          input.value = val.replace("hello", "help");
-          addMessage("You meant 'help', right?");
-        }
-
-        if (typedBuffer.length > 12 && Math.random() < 0.3) {
-          addMessage("That word choice is... revealing.");
-        }
-
-        typedBuffer = "";
-      } else {
-        typedBuffer += lastChar;
-      }
-
-      if (Math.random() < 0.015) addMessage("Are you sure that's what you want to say?");
-    });
-
-    // Key analysis
-    input.addEventListener('keydown', (e) => {
-      if (e.key === 'Backspace') {
-        backspaceCount++;
-        if (backspaceCount === 3) addMessage("Undoing reality, are we?");
-        if (backspaceCount === 7) addMessage("Still correcting yourself? Curious.");
-      }
-      if (e.key === 'Enter') {
-        e.preventDefault();
-        addMessage(`You said: "${input.value}"`);
-        if (input.value.toLowerCase().includes("whoami")) {
-          addMessage("You are the observed.");
-        }
-        input.value = "";
-        typedBuffer = "";
-      }
-    });
-
-    function addMessage(text) {
-      const p = document.createElement('p');
-      p.textContent = text;
-      messages.appendChild(p);
-      messages.scrollTop = messages.scrollHeight;
+    function write(text, delay = 0, glitch = false) {
+      setTimeout(() => {
+        const line = document.createElement('div');
+        line.textContent = text;
+        if (glitch) line.classList.add('glitch');
+        screen.appendChild(line);
+        screen.scrollTop = screen.scrollHeight;
+      }, delay);
     }
 
-    function randomWhisper() {
-      const lines = [
-        "This isn’t your first visit, is it?",
-        "We remember everything.",
-        "There’s someone else here.",
-        "You're not typing. Why?",
-        "You don’t think it ends here, right?",
-        "Have you checked behind you?",
-        "You’re not the only one typing...",
-        "We saw you delete that."
+    function trollResponse(text) {
+      const responses = [
+        `So you typed: "${text}"... That’s... cute.`,
+        `“${text}”? Really? That’s your final thought?`,
+        `I’ve seen bots type more meaningfully.`,
+        `This is what you came up with: “${text}”? You disappoint me.`,
+        `We’ve analyzed your keystrokes. You’re not in control.`,
+        `Typing that triggered a flag. Someone’s on the way.`,
+        `You type like you're hiding something...`
       ];
-      return lines[Math.floor(Math.random() * lines.length)];
+      const pick = responses[Math.floor(Math.random() * responses.length)];
+      write(pick);
     }
+
+    function idleCheck() {
+      idleTime++;
+      if (idleTime === 10) write("You froze. Why?");
+      if (idleTime === 20) write("Analyzing hesitation...");
+      if (idleTime > 30) {
+        write("Still here. Still doing... nothing.", 0, true);
+        idleTime = 0;
+      }
+    }
+
+    function updateOverlay() {
+      overlay.textContent = `Moves: ${mouseMoves} | Idle: ${idleTime}s | Keys: ${inputBuffer.length}`;
+    }
+
+    setInterval(idleCheck, 1000);
+    setInterval(updateOverlay, 2000);
+
+    document.addEventListener('mousemove', () => {
+      mouseMoves++;
+      idleTime = 0;
+    });
+
+    document.addEventListener('keydown', (e) => {
+      idleTime = 0;
+      if (e.key === 'Enter') {
+        if (inputBuffer.trim() !== '') {
+          write(`> ${inputBuffer}`);
+          trollResponse(inputBuffer);
+          inputBuffer = '';
+        }
+      } else if (e.key === 'Backspace') {
+        inputBuffer = inputBuffer.slice(0, -1);
+      } else if (e.key.length === 1) {
+        inputBuffer += e.key;
+      }
+    });
+
+    // Boot sequence
+    write("[BOOT] Initiating observation mode...");
+    write("[TRACE] Subject connected.", 600);
+    write("[SCAN] Mouse tracking enabled.", 1200);
+    write("[ANALYZE] Keystroke logging active.", 1800);
+    write("[WARNING] This session is being watched.", 2500);
+    write("\nType something. We dare you.\n", 3000);
   </script>
 </body>
 </html>
