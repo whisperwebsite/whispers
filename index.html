@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>We're Listening</title>
+  <title>WhisperWeb - You're Being Watched</title>
   <style>
     body {
       margin: 0;
@@ -65,13 +65,6 @@
       screen.scrollTop = screen.scrollHeight;
     }
 
-    function logAction(action) {
-      const line = document.createElement('div');
-      line.textContent = `[TRACK] ${action}`;
-      log.appendChild(line);
-      log.scrollTop = log.scrollHeight;
-    }
-
     function mockResponse(inputText) {
       const low = inputText.toLowerCase();
       const weird = [
@@ -101,25 +94,41 @@
           write(`> ${val}`);
           const response = mockResponse(val);
           write(response, true);
-          logAction(`Typed: "${val}"`);
         }
         input.value = '';
       }
     });
 
-    document.addEventListener('mousemove', (e) => {
-      logAction(`Mouse at (${e.clientX}, ${e.clientY})`);
-    });
+    // Live action trolling engine
+    function troll(action) {
+      const phrases = [
+        `You moved the mouse again. Classic panic move.`,
+        `Clicking won't save you.`,
+        `We saw that.`,
+        `Left click? Bold choice.`,
+        `Hovering like you’re unsure.`,
+        `Fast movement detected. Someone’s getting nervous.`,
+        `Idle time increasing... but we’re still watching.`,
+        `Click registered. Why though?`,
+        `Every move tells us more.`,
+        `You’re being analyzed. Don’t act natural.`,
+        `We’re mapping your pattern. It's chaotic.`,
+        `Double click? Overcompensating?`,
+      ];
+      const line = document.createElement('div');
+      line.textContent = `[TRACK] ${phrases[Math.floor(Math.random() * phrases.length)]}`;
+      log.appendChild(line);
+      log.scrollTop = log.scrollHeight;
+    }
 
-    document.addEventListener('click', (e) => {
-      logAction(`Clicked at (${e.clientX}, ${e.clientY})`);
-    });
+    document.addEventListener('mousemove', () => troll('mousemove'));
+    document.addEventListener('click', () => troll('click'));
 
     let idleSeconds = 0;
     setInterval(() => {
       idleSeconds++;
-      if (idleSeconds === 10) logAction("10 seconds idle");
-      if (idleSeconds === 30) logAction("30 seconds of silence. You're being watched.");
+      if (idleSeconds === 10) troll("idle 10s");
+      if (idleSeconds === 30) troll("idle 30s");
     }, 1000);
     
     document.onmousemove = document.onkeydown = () => idleSeconds = 0;
