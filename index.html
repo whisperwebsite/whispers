@@ -10,7 +10,7 @@
 
     body {
       font-family: 'Share Tech Mono', monospace;
-      background: url('https://i.imgur.com/jxWqIBf.jpg') center/cover fixed;
+      background: url('https://media.giphy.com/media/3oEjI6SIIHBdRxXI40/giphy.gif') center/cover fixed;
       color: #00ffe1;
       display: flex;
       overflow: hidden;
@@ -21,8 +21,8 @@
       content: '';
       position: fixed;
       top: 0; left: 0; right: 0; bottom: 0;
-      background: rgba(0,0,0,0.7);
-      backdrop-filter: blur(4px);
+      background: rgba(0,0,0,0.78); /* dark enough for contrast */
+      backdrop-filter: blur(2px);
       pointer-events: none;
       z-index: 0;
     }
@@ -39,11 +39,11 @@
 
     #screen {
       border-right: 1px solid #00ffe1;
-      background: linear-gradient(to bottom, rgba(0,0,0,0.4), rgba(0,0,0,0.7));
+      background: rgba(0, 0, 0, 0.2);
     }
 
     #log {
-      background: linear-gradient(to bottom, rgba(0,10,10,0.4), rgba(0,0,0,0.8));
+      background: rgba(0, 10, 10, 0.15);
     }
 
     input {
@@ -58,7 +58,7 @@
       font-family: inherit;
       font-size: 1rem;
       z-index: 10;
-      box-shadow: 0 0 10px #00ffe177;
+      box-shadow: 0 0 6px #00ffe144;
     }
 
     .glitch {
@@ -105,8 +105,8 @@
       top: 0; left: 0; width: 100%; height: 100%;
       background-image: repeating-linear-gradient(
         to bottom, 
-        rgba(0, 255, 255, 0.05), 
-        rgba(0, 255, 255, 0.05) 1px, 
+        rgba(0, 255, 255, 0.04), 
+        rgba(0, 255, 255, 0.04) 1px, 
         transparent 1px, 
         transparent 3px
       );
@@ -201,7 +201,6 @@
     
     document.onkeydown = () => idleSeconds = 0;
 
-    // Random paranoia lines
     const paranoia = [
       "Another visitor typed the same word. Seconds ago.",
       "There’s someone watching you. Not us.",
