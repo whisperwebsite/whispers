@@ -3,87 +3,121 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>WhisperWeb</title>
-  <link rel="stylesheet" href="style.css" />
+  <title>You Were Never Here</title>
   <style>
     body {
       margin: 0;
       padding: 0;
-      background: #0d0d0d;
-      color: #eee;
-      font-family: 'Courier New', monospace;
+      background: #0b0b0b;
+      color: #e6e6e6;
+      font-family: "Courier New", monospace;
       overflow: hidden;
     }
-    .whisper-container {
+    #container {
       display: flex;
       flex-direction: column;
-      align-items: center;
       justify-content: center;
+      align-items: center;
       height: 100vh;
       padding: 20px;
       text-align: center;
     }
-    .whisper-title {
-      font-size: 3rem;
-      margin-bottom: 2rem;
-      animation: glitch 1s infinite alternate;
+    h1 {
+      font-size: 2.5rem;
+      margin-bottom: 1rem;
+      animation: flicker 3s infinite;
     }
-    .whispers {
-      font-size: 1.25rem;
+    #messages {
       max-width: 600px;
+      font-size: 1.2rem;
       line-height: 1.6;
     }
-    @keyframes glitch {
-      0% { text-shadow: 1px 0 red; }
-      100% { text-shadow: -1px 0 blue; }
+    @keyframes flicker {
+      0%, 19%, 21%, 23%, 25%, 54%, 56%, 100% {
+        opacity: 1;
+      }
+      20%, 24%, 55% {
+        opacity: 0.5;
+      }
     }
   </style>
 </head>
 <body>
-  <div class="whisper-container">
-    <h1 class="whisper-title">WhisperWeb</h1>
-    <div id="whispers" class="whispers">Listening...</div>
+  <div id="container">
+    <h1>You Were Never Here</h1>
+    <div id="messages">
+      <p>Welcome back. We’ve been watching.</p>
+    </div>
   </div>
-
   <script>
-    const whispers = document.getElementById('whispers');
-
-    // Idle detection
+    const messages = document.getElementById('messages');
     let idleTime = 0;
+    let backspaceCount = 0;
+
+    // Idle time whispers
     setInterval(() => {
       idleTime++;
-      if (idleTime === 10) whisper("You've been quiet...");
-      if (idleTime === 30) whisper("Still here? We are.");
+      if (idleTime === 10) addMessage("You're still here. Good.");
+      if (idleTime === 30) addMessage("We enjoy the silence.");
+      if (idleTime === 60) addMessage("Still not moving. We are.");
     }, 1000);
 
+    // Reset idle on interaction
     document.onmousemove = document.onkeydown = () => idleTime = 0;
 
-    // Microphone setup
-    navigator.mediaDevices.getUserMedia({ audio: true }).then(stream => {
-      const audioContext = new (window.AudioContext || window.webkitAudioContext)();
-      const source = audioContext.createMediaStreamSource(stream);
-      const analyser = audioContext.createAnalyser();
-      source.connect(analyser);
-      const data = new Uint8Array(analyser.frequencyBinCount);
-
-      setInterval(() => {
-        analyser.getByteFrequencyData(data);
-        const volume = data.reduce((a, b) => a + b) / data.length;
-        if (volume > 30) whisper("I heard that.");
-        if (volume > 60) whisper("Something moved.");
-        if (volume > 100) whisper("You’re not alone.");
-      }, 2000);
-
-    }).catch(err => {
-      whisper("Can't hear you. Did you block me?");
+    // Typing watcher
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Backspace') {
+        backspaceCount++;
+        if (backspaceCount === 3) addMessage("Undoing reality, are we?");
+        if (backspaceCount === 7) addMessage("Still correcting yourself? Curious.");
+      } else {
+        if (Math.random() < 0.02) addMessage(randomSnark());
+      }
     });
 
-    // Whispering function
-    function whisper(msg) {
-      const line = document.createElement('p');
-      line.textContent = msg;
-      whispers.appendChild(line);
-      whispers.scrollTop = whispers.scrollHeight;
+    // Mouse watcher
+    let lastMouseX = 0;
+    document.addEventListener('mousemove', (e) => {
+      const dx = Math.abs(e.clientX - lastMouseX);
+      lastMouseX = e.clientX;
+      if (dx > 300 && Math.random() < 0.3) {
+        addMessage("Fast moves. Nervous?");
+      }
+    });
+
+    // Random messages
+    setInterval(() => {
+      if (Math.random() < 0.1) addMessage(randomWhisper());
+    }, 8000);
+
+    function addMessage(text) {
+      const p = document.createElement('p');
+      p.textContent = text;
+      messages.appendChild(p);
+      messages.scrollTop = messages.scrollHeight;
+    }
+
+    function randomSnark() {
+      const lines = [
+        "Interesting keystroke...",
+        "Wow. That's how you type?",
+        "You seem... deliberate.",
+        "Going somewhere with this?",
+        "Nice use of the spacebar."
+      ];
+      return lines[Math.floor(Math.random() * lines.length)];
+    }
+
+    function randomWhisper() {
+      const lines = [
+        "This isn’t your first visit, is it?",
+        "We remember everything.",
+        "There's someone else here.",
+        "You're not typing. Why?",
+        "You don’t think it ends here, right?"
+      ];
+      return lines[Math.floor(Math.random() * lines.length)];
     }
   </script>
 </body>
