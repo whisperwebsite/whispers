@@ -5,12 +5,14 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>WhisperWeb - You're Being Watched</title>
   <style>
+    @import url('https://fonts.googleapis.com/css2?family=Share+Tech+Mono&display=swap');
+
     body {
       margin: 0;
       padding: 0;
-      background: #000;
+      background: linear-gradient(135deg, #000 0%, #111 100%);
       color: #00ffcc;
-      font-family: monospace;
+      font-family: 'Share Tech Mono', monospace;
       overflow: hidden;
       display: flex;
     }
@@ -21,29 +23,40 @@
       white-space: pre-wrap;
       box-sizing: border-box;
       width: 50%;
+      backdrop-filter: blur(2px);
     }
     #screen {
       border-right: 1px solid #00ffcc;
+      background: rgba(0, 0, 0, 0.3);
+    }
+    #log {
+      background: rgba(0, 20, 20, 0.3);
     }
     input {
       position: fixed;
-      bottom: 10px;
-      left: 10px;
-      width: calc(50% - 20px);
-      padding: 10px;
+      bottom: 20px;
+      left: 20px;
+      width: calc(50% - 40px);
+      padding: 12px;
       background: #000;
       color: #00ffcc;
-      border: 1px solid #00ffcc;
-      font-family: monospace;
+      border: 2px solid #00ffcc;
+      font-family: 'Share Tech Mono', monospace;
       font-size: 1rem;
       z-index: 10;
+      box-shadow: 0 0 10px #00ffcc33;
     }
     .glitch {
       animation: flicker 0.4s infinite alternate;
+      text-shadow: 0 0 5px #00ffee, 0 0 10px #00ffee88;
     }
     @keyframes flicker {
       from { opacity: 1; }
-      to { opacity: 0.3; }
+      to { opacity: 0.4; }
+    }
+    ::selection {
+      background: #00ffee;
+      color: #000;
     }
   </style>
 </head>
