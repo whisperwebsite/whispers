@@ -122,6 +122,27 @@
       background: #111;
       color: lime;
     }
+    .icon {
+      position: absolute;
+      width: 64px;
+      height: 64px;
+      background: url('https://www.iconarchive.com/download/i107925/google/noto-emoji-objects/62831-floppy-disk.ico') no-repeat center/contain;
+      cursor: move;
+    }
+    #bsod {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      background: #0000aa;
+      color: white;
+      font-family: monospace;
+      font-size: 18px;
+      padding: 20px;
+      display: none;
+      z-index: 9999;
+    }
   </style>
 </head>
 <body>
@@ -131,9 +152,8 @@
   <div id="container">
     <div id="sidebar">
       <div class="nav-button" onclick="alert('This button does nothing. Deal with it.')">🏠 HOME</div>
-      <div class="nav-button" onclick="window.open('https://theuselessweb.com/')">🌀 USELESS WEB</div>
-      <div class="nav-button" onclick="window.open('https://pointerpointer.com/')">👉 POINTER POINTER</div>
-      <div class="nav-button" onclick="window.open('https://heeeeeeeey.com/')">🎵 HEEEEEEEY</div>
+      <div class="nav-button" onclick="triggerBSOD()">💀 CRASH MODE</div>
+      <div class="nav-button" onclick="spawnIcon()">🖼 SPAWN ICON</div>
     </div>
 
     <div id="main">
@@ -149,6 +169,20 @@
         <input id="chat-input" placeholder="Type here..." onkeydown="handleChat(event)">
       </div>
     </div>
+  </div>
+
+  <div id="bsod">
+    <pre>
+    *** STOP: 0x000000D1 (0x00000002, 0x00000000, 0xF84D1234)
+    DRIVER_IRQL_NOT_LESS_OR_EQUAL
+
+    A problem has been detected and Windows has been shut down to prevent damage
+    to your computer.
+
+    Press CTRL+ALT+DEL to restart your computer. If this screen appears again,
+    follow these steps:
+    Suffer.
+    </pre>
   </div>
 
   <audio id="clickSound">
@@ -189,14 +223,14 @@
       document.body.appendChild(popup);
     }
 
-    // Moving button
+    // Runaway button
     const runBtn = document.getElementById("runawayBtn");
     runBtn.addEventListener("mouseover", () => {
       runBtn.style.top = Math.random() * (window.innerHeight - 50) + 'px';
       runBtn.style.left = Math.random() * (window.innerWidth - 100) + 'px';
     });
 
-    // Fake chatbot
+    // Chatbot
     function handleChat(e) {
       if (e.key === "Enter") {
         let input = e.target.value;
@@ -219,7 +253,49 @@
       return insults[Math.floor(Math.random() * insults.length)];
     }
 
-    // Rage quit protection
+    // Fake desktop icon spawner
+    function spawnIcon() {
+      let icon = document.createElement("div");
+      icon.className = "icon";
+      icon.style.top = Math.random() * (window.innerHeight - 64) + 'px';
+      icon.style.left = Math.random() * (window.innerWidth - 64) + 'px';
+      document.body.appendChild(icon);
+      dragElement(icon);
+    }
+
+    // Drag handler
+    function dragElement(elmnt) {
+      let pos1 = 0, pos2 = 0, pos3 = 0, pos4 = 0;
+      elmnt.onmousedown = dragMouseDown;
+
+      function dragMouseDown(e) {
+        e.preventDefault();
+        pos3 = e.clientX;
+        pos4 = e.clientY;
+        document.onmouseup = closeDragElement;
+        document.onmousemove = elementDrag;
+      }
+
+      function elementDrag(e) {
+        pos1 = pos3 - e.clientX;
+        pos2 = pos4 - e.clientY;
+        pos3 = e.clientX;
+        pos4 = e.clientY;
+        elmnt.style.top = (elmnt.offsetTop - pos2) + "px";
+        elmnt.style.left = (elmnt.offsetLeft - pos1) + "px";
+      }
+
+      function closeDragElement() {
+        document.onmouseup = null;
+        document.onmousemove = null;
+      }
+    }
+
+    // Fake BSOD
+    function triggerBSOD() {
+      document.getElementById("bsod").style.display = "block";
+    }
+
     window.onbeforeunload = function() {
       return "You're just going to leave like that? We were just getting started!";
     };
