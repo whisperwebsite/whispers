@@ -57,9 +57,10 @@
 
 .glitch {
   position: relative;
-  color: #fff;
-  font-weight: bold;
-  animation: glitch 1s infinite linear alternate-reverse;
+  color: white;
+  font-weight: 600;
+  font-size: 1rem;
+  animation: glitch-animation 1s infinite;
 }
 
 .glitch::before,
@@ -68,19 +69,51 @@
   position: absolute;
   left: 0;
   width: 100%;
-  overflow: hidden;
+  opacity: 0.8;
+  clip: rect(0, 900px, 0, 0);
 }
 
 .glitch::before {
   animation: glitchTop 1s infinite linear alternate-reverse;
   color: #ff00c8;
   top: -2px;
+  z-index: -1;
 }
 
 .glitch::after {
   animation: glitchBottom 1s infinite linear alternate-reverse;
   color: #00fff9;
   top: 2px;
+  z-index: -1;
+}
+
+@keyframes glitch-animation {
+  0% { transform: none; }
+  20% { transform: translate(-1px, 1px); }
+  40% { transform: translate(-2px, -1px); }
+  60% { transform: translate(1px, 2px); }
+  80% { transform: translate(1px, -1px); }
+  100% { transform: none; }
+}
+
+@keyframes glitchTop {
+  0% { clip: rect(0, 9999px, 0, 0); }
+  10% { clip: rect(0, 9999px, 15px, 0); }
+  20% { clip: rect(0, 9999px, 5px, 0); }
+  30% { clip: rect(0, 9999px, 20px, 0); }
+  40% { clip: rect(0, 9999px, 7px, 0); }
+  50% { clip: rect(0, 9999px, 0, 0); }
+  100% { clip: rect(0, 9999px, 20px, 0); }
+}
+
+@keyframes glitchBottom {
+  0% { clip: rect(0, 9999px, 0, 0); }
+  10% { clip: rect(5px, 9999px, 25px, 0); }
+  20% { clip: rect(15px, 9999px, 30px, 0); }
+  30% { clip: rect(5px, 9999px, 15px, 0); }
+  40% { clip: rect(10px, 9999px, 20px, 0); }
+  50% { clip: rect(0, 9999px, 0, 0); }
+  100% { clip: rect(5px, 9999px, 20px, 0); }
 }
 
 @keyframes glitch {
@@ -117,13 +150,16 @@
     const input = document.getElementById('userInput');
     const log = document.getElementById('log');
 
-    function write(text, glitch = false) {
-      const line = document.createElement('div');
-      line.textContent = text;
-      if (glitch) line.classList.add('glitch');
-      screen.appendChild(line);
-      screen.scrollTop = screen.scrollHeight;
-    }
+function write(text, glitch = false) {
+  const line = document.createElement('div');
+  if (glitch) {
+    line.classList.add('glitch');
+    line.setAttribute('data-text', text); // required for proper glitch shadows
+  }
+  line.textContent = text;
+  screen.appendChild(line);
+  screen.scrollTop = screen.scrollHeight;
+}
 
     input.addEventListener('keydown', (e) => {
       if (e.key === 'Enter') {
