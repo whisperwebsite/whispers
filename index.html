@@ -2,152 +2,155 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>Welcome to Your Nightmare</title>
+  <title>WELCOME TO THE FUTURE OF WEB DEZINE</title>
   <style>
-    /* Epileptic color cycle */
-    @keyframes flash {
-      0% { background-color: red; }
-      25% { background-color: blue; }
-      50% { background-color: green; }
-      75% { background-color: yellow; }
-      100% { background-color: red; }
-    }
-
-    @keyframes fontSwap {
-      0% { font-family: 'Comic Sans MS'; }
-      25% { font-family: 'Papyrus'; }
-      50% { font-family: 'Courier New'; }
-      75% { font-family: 'Wingdings'; }
-      100% { font-family: 'Comic Sans MS'; }
-    }
-
+    /* Eye-searing visuals */
     body {
-      animation: flash 0.5s infinite, fontSwap 2s infinite;
+      background: linear-gradient(45deg, magenta, cyan, lime) infinite;
+      animation: bgShift 2s infinite linear;
       margin: 0;
       padding: 0;
-      cursor: url('https://cur.cursors-4u.net/cursors/cur-2/cur109.cur'), auto;
+      color: lime;
+      font-family: 'Comic Sans MS', 'Papyrus', 'Courier New', 'Impact', 'Times New Roman', 'Brush Script MT', 'Wingdings', 'Arial', 'Lucida Console', 'Chiller';
       overflow: hidden;
-      height: 100vh;
+      cursor: url('https://cur.cursors-4u.net/others/oth-7/oth676.cur'), auto;
     }
 
-    #glitchVid {
-      position: fixed;
-      width: 100vw;
-      height: 100vh;
-      object-fit: cover;
-      z-index: -1;
+    @keyframes bgShift {
+      0% { filter: hue-rotate(0deg); }
+      100% { filter: hue-rotate(360deg); }
     }
 
-    .jitter {
+    @keyframes rotate {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
+    }
+
+    @keyframes blink {
+      0%, 50%, 100% { opacity: 1; }
+      25%, 75% { opacity: 0; }
+    }
+
+    .blinking {
+      animation: blink 0.8s infinite;
+    }
+
+    .marquee {
+      width: 100%;
+      overflow: hidden;
+      white-space: nowrap;
+      position: relative;
+    }
+
+    .marquee span {
+      display: inline-block;
+      padding-left: 100%;
+      animation: marquee 10s linear infinite;
+    }
+
+    @keyframes marquee {
+      0% { transform: translateX(0); }
+      100% { transform: translateX(-100%); }
+    }
+
+    h1 {
+      font-size: 3em;
+      text-align: center;
+      color: hotpink;
+      font-family: 'Comic Sans MS';
+      text-shadow: 2px 2px yellow;
+    }
+
+    .popup {
       position: absolute;
-      font-size: 2em;
-      color: white;
+      top: 10%;
+      left: 10%;
+      background: #000;
+      color: red;
+      padding: 20px;
+      border: 3px dashed white;
+      z-index: 999;
+      font-size: 1.5em;
+      font-family: 'Papyrus';
     }
 
-    #chaosBtn {
-      padding: 1em;
-      background-color: black;
-      color: white;
-      border: 2px solid red;
-      font-weight: bold;
+    .skull {
       position: absolute;
+      width: 50px;
+      height: 50px;
+      animation: rotate 3s linear infinite;
     }
 
-    #loadingScreen {
+    #foreverLoad {
       position: fixed;
       top: 0;
       left: 0;
-      width: 100%;
-      height: 100%;
+      width: 100vw;
+      height: 100vh;
       background: black;
       color: lime;
       font-size: 2em;
       display: flex;
       align-items: center;
       justify-content: center;
-      z-index: 1000;
-    }
-
-    #ghostCursor {
-      position: absolute;
-      width: 20px;
-      height: 20px;
-      background: rgba(255, 255, 255, 0.3);
-      border-radius: 50%;
-      pointer-events: none;
+      z-index: 9999;
     }
   </style>
 </head>
 <body>
+
+  <div id="foreverLoad">LOADING... 99%</div>
+
+  <h1 class="blinking">WELCOME TO THE FUTURE OF WEB DEZINE</h1>
+
+  <div class="marquee"><span>🔥🔥🔥 DOWNLOAD MORE RAM 🔥🔥🔥 GET TOILET MILK™ TODAY ONLY 🔥🔥🔥</span></div>
+
+  <img src="https://www.animatedimages.org/data/media/71/animated-fire-image-0082.gif" class="skull" style="top: 20%; left: 10%;">
+  <img src="https://www.animatedimages.org/data/media/71/animated-fire-image-0082.gif" class="skull" style="top: 50%; left: 80%;">
+
   <audio autoplay loop>
-    <source src="https://files.khinsider.com/midifiles/doom/doom.mid" type="audio/midi">
+    <source src="https://files.khinsider.com/midifiles/earthbound/8-bit%20trumpet.mid" type="audio/midi">
   </audio>
-  <audio id="scream" src="https://www.soundjay.com/human/screaming-woman-01.mp3"></audio>
-  <video autoplay muted loop id="glitchVid">
-    <source src="https://media.giphy.com/media/oEI9uBYSzLpBK/giphy.mp4" type="video/mp4">
-  </video>
 
-  <div id="ghostCursor"></div>
-  <div class="jitter" style="top: 20%; left: 30%;">WHY ARE YOU HERE</div>
-  <div class="jitter" style="top: 50%; left: 50%;">YOU CAN'T LEAVE</div>
-
-  <button id="chaosBtn">CLICK ME</button>
-
-  <div id="loadingScreen">Loading your suffering...</div>
+  <audio id="whisper" src="https://www.soundjay.com/misc/sounds/creepy-whispers-1.mp3"></audio>
 
   <script>
-    // Remove loading screen after delay
+    // Pop-ups
     setTimeout(() => {
-      document.getElementById("loadingScreen").style.display = "none";
-    }, 8000);
+      alert("Are you real?");
+      alert("Please confirm your nonexistence.");
+      alert("This is not a secure site. That’s the point.");
+    }, 5000);
 
-    // Ghost cursor
-    const ghost = document.getElementById("ghostCursor");
-    document.addEventListener('mousemove', e => {
-      ghost.style.left = e.pageX + 30 + "px";
-      ghost.style.top = e.pageY + 30 + "px";
-    });
-
-    // Jitter effect
+    // Whisper at intervals
     setInterval(() => {
-      document.querySelectorAll(".jitter").forEach(el => {
-        el.style.transform = `translate(${Math.random()*10-5}px, ${Math.random()*10-5}px)`;
-      });
-    }, 50);
+      document.getElementById('whisper').play();
+    }, 45000);
 
-    // Runaway button
-    const btn = document.getElementById("chaosBtn");
-    btn.addEventListener("mouseover", () => {
-      btn.style.left = Math.random() * (window.innerWidth - 100) + "px";
-      btn.style.top = Math.random() * (window.innerHeight - 50) + "px";
-    });
+    // Infinite loading screen
+    setInterval(() => {
+      const load = document.getElementById('foreverLoad');
+      load.innerText = "LOADING... 99%";
+    }, 3000);
 
-    // Reverse scrolling
-    window.addEventListener("wheel", (e) => {
-      window.scrollBy(0, -e.deltaY);
-    }, { passive: false });
+    // Source-based hidden message
+    console.log("you brought this on yourself");
 
-    // Random scream
-    setInterval(() => document.getElementById('scream').play(), Math.random() * 20000 + 10000);
-
-    // Existential popup
-    setTimeout(() => {
-      alert("What is a website but pain translated into pixels?");
-    }, 15000);
-
-    // Return visitor message
-    if (localStorage.getItem("visited")) {
-      alert("You came back? You fool.");
-    } else {
-      localStorage.setItem("visited", "true");
-    }
-
-    // Chaos button event
-    btn.addEventListener("click", () => {
-      for(let i = 0; i < 5; i++) {
-        alert("You were warned.");
+    // DO NOT TOUCH button
+    const btn = document.createElement('button');
+    btn.innerText = "DO NOT TOUCH THIS OR YOU’LL REGRET IT.";
+    btn.style.position = "absolute";
+    btn.style.top = "80%";
+    btn.style.left = "35%";
+    btn.style.fontSize = "2em";
+    btn.style.background = "red";
+    btn.onclick = () => {
+      for (let i = 0; i < 20; i++) {
+        alert("Regret: Activated");
       }
-    });
+    }
+    document.body.appendChild(btn);
   </script>
+
 </body>
 </html>
