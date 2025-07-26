@@ -78,9 +78,6 @@
 
 <!-- chaos.html starts below -->
 
-<!-- Save this as chaos.html in same directory -->
-<!-- THE TROLL ZONE -->
-
 <!-- chaos.html -->
 <!DOCTYPE html>
 <html lang="en">
@@ -118,6 +115,25 @@
       text-shadow: 2px 2px magenta;
       animation: flicker 0.2s infinite;
     }
+    .clippy {
+      position: absolute;
+      width: 100px;
+      height: 100px;
+      background: url('https://i.imgur.com/GYvX5Jf.png') no-repeat center center;
+      background-size: contain;
+      cursor: pointer;
+      z-index: 9999;
+    }
+    #score {
+      position: absolute;
+      top: 0;
+      right: 0;
+      padding: 1rem;
+      font-size: 20px;
+      color: yellow;
+      text-shadow: 1px 1px 2px #000;
+      font-weight: bold;
+    }
     @keyframes flicker {
       0% {opacity: 1;}
       50% {opacity: 0.6;}
@@ -131,6 +147,7 @@
   </audio>
 
   <div class="banner">🔔 DOWNLOAD MORE RAM™ AVAILABLE NOW 🔔</div>
+  <div id="score">Clippy Score: 0</div>
 
   <script>
     function createPopup(content, x, y) {
@@ -150,33 +167,31 @@
     const trollProducts = [
       {
         title: "Toilet Milk™",
-        image: "https://i.imgur.com/hvHD2Qr.png",
+        image: "https://i.imgur.com/8Z0gUzv.jpeg",
         tagline: "Milk your commode. Now with 2% calcium."
       },
       {
         title: "Download More RAM™",
-        image: "https://i.imgur.com/HcSmX2X.png",
+        image: "https://i.imgur.com/3oHqX9u.jpeg",
         tagline: "16GB in 1 click. Probably."
       },
       {
         title: "Adobe Sponge CC",
-        image: "https://i.imgur.com/FAEz6hQ.png",
+        image: "https://i.imgur.com/LIcd8lX.jpeg",
         tagline: "Absorbs your creativity."
       },
       {
         title: "Windows XP Phone™",
-        image: "https://i.imgur.com/jqFbtiI.png",
+        image: "https://i.imgur.com/DPXjKWB.jpeg",
         tagline: "Tap Start to call."
       }
     ];
 
-    let x = 50, y = 50;
     setInterval(() => {
       const product = trollProducts[Math.floor(Math.random() * trollProducts.length)];
       createPopup(product, Math.random() * window.innerWidth - 300, Math.random() * window.innerHeight - 200);
     }, 1000);
 
-    // Try to block exits
     window.onbeforeunload = function() {
       return "Wait! Your free Toilet Milk download is almost complete!";
     };
@@ -186,6 +201,31 @@
         alert("Escape is futile.");
       }
     });
+
+    // Whack-a-Clippy Logic
+    let clippyScore = 0;
+    function spawnClippy() {
+      const clippy = document.createElement('div');
+      clippy.classList.add('clippy');
+      clippy.style.left = `${Math.random() * (window.innerWidth - 100)}px`;
+      clippy.style.top = `${Math.random() * (window.innerHeight - 100)}px`;
+      clippy.title = "It looks like you're trying to click me!";
+      clippy.onclick = () => {
+        clippyScore++;
+        document.getElementById('score').innerText = `Clippy Score: ${clippyScore}`;
+        clippy.remove();
+        if (clippyScore % 10 === 0) alert("Achievement Unlocked: Office Space Champion!");
+      };
+      document.body.appendChild(clippy);
+
+      setTimeout(() => {
+        if (document.body.contains(clippy)) clippy.remove();
+      }, 2000);
+    }
+
+    setTimeout(() => {
+      setInterval(spawnClippy, 800);
+    }, 10000); // Delay Clippy swarm by 10s
   </script>
 </body>
 </html>
