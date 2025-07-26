@@ -4,83 +4,74 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>WhisperWeb</title>
-  <link href="https://fonts.googleapis.com/css2?family=VT323&display=swap" rel="stylesheet">
   <style>
-    * {
-      box-sizing: border-box;
-    }
-
     body {
-      font-family: 'Share Tech Mono', monospace;
-      background-image: url('https://images.unsplash.com/photo-1635805737707-575885ab0820?auto=format&fit=crop&w=1950&q=80');
+      margin: 0;
+      font-family: 'Courier New', monospace;
+      background-image: url('https://images.unsplash.com/photo-1586968272237-a3d597214887?q=80&w=1170&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D');
       background-size: cover;
       background-position: center;
-      color: #00ffea;
-      height: 100vh;
-      display: flex;
-      flex-direction: column;
-      backdrop-filter: blur(4px);
+      background-attachment: fixed;
+      color: #00ffcc;
+      overflow: hidden;
     }
 
-    #wrapper {
+    #container {
+      position: absolute;
+      inset: 0;
+      backdrop-filter: blur(5px) brightness(0.4);
+      padding: 20px;
+      box-sizing: border-box;
       display: flex;
       flex-direction: column;
-      height: 100%;
-      backdrop-filter: blur(4px);
-      background-color: rgba(0, 0, 0, 0.7);
+      justify-content: flex-end;
     }
 
     #screen {
-      flex: 2;
+      flex-grow: 1;
       overflow-y: auto;
-      padding: 1rem;
-      font-size: 1.2rem;
+      margin-bottom: 10px;
+      padding-right: 10px;
     }
 
     #log {
-      flex: 1;
+      font-size: 0.85em;
+      opacity: 0.8;
+      max-height: 100px;
       overflow-y: auto;
-      padding: 1rem;
-      font-size: 1rem;
+      margin-bottom: 10px;
       color: #ff66cc;
     }
 
-    #inputContainer {
-      border-top: 1px solid #00ffcc;
-      padding: 0.5rem 1rem;
-      display: flex;
-    }
-
     input {
-      width: 100%;
-      background: black;
+      background: none;
       border: none;
+      border-bottom: 1px solid #00ffcc;
       color: #00ffcc;
-      font-size: 1.3rem;
-      font-family: 'VT323', monospace;
+      width: 100%;
+      padding: 5px;
+      font-family: inherit;
+      font-size: 1em;
       outline: none;
     }
 
     .glitch {
-      animation: glitch 1s infinite;
+      color: #ff00ff;
+      text-shadow: 1px 0 red, -1px 0 cyan;
+      animation: glitch 1s infinite alternate;
     }
 
     @keyframes glitch {
-      0% { text-shadow: 2px 0 red; }
-      25% { text-shadow: -2px 0 blue; }
-      50% { text-shadow: 2px 2px green; }
-      75% { text-shadow: -1px -1px yellow; }
-      100% { text-shadow: 1px 0 red; }
+      0% { text-shadow: 2px 0 red, -2px 0 cyan; }
+      100% { text-shadow: -2px 0 red, 2px 0 cyan; }
     }
   </style>
 </head>
 <body>
-  <div id="wrapper">
+  <div id="container">
     <div id="screen"></div>
     <div id="log"></div>
-    <div id="inputContainer">
-      <input id="userInput" placeholder="Type something unsettling..." autofocus />
-    </div>
+    <input id="userInput" type="text" placeholder="> Say something...">
   </div>
 
   <script>
@@ -122,44 +113,37 @@
         `Your typing rhythm betrayed you when you wrote “${inputText}.”`,
         `You hesitated before typing “${inputText}”. Guilty much?`,
         `Is “${inputText}” what you think passes for intelligence?`,
+        `We logged “${inputText}” and then immediately regretted it.`,
         `“${inputText}” just got flagged by our internal cringe detector.`,
         `We ran a scan on “${inputText}”. Result: no detectable value.`,
+        `You know “${inputText}” says more about you than you think, right?`,
         `There are viruses less annoying than “${inputText}.”`,
-        `“${inputText}” made the server feel pain.`,
-        `Even autocorrect gave up on “${inputText}.”`,
+        `“${inputText}” was the moment you lost credibility.`,
         `You typed “${inputText}” like you thought it mattered.`,
-        `“${inputText}”? You call *that* a thought?`,
-        `That moment when you type “${inputText}” and think it's clever.`,
-        `“${inputText}”? Is that your final answer?`,
-        `“${inputText}” triggered our existential dread protocol.`,
-        `Your brain whispered “${inputText}” and your fingers betrayed you.`,
-        `“${inputText}”... this is how villain origin stories begin.`,
-        `You should’ve backspaced “${inputText}.” It’s too late now.`,
-        `“${inputText}” — the reason AI therapy was invented.`,
-        `We showed “${inputText}” to our darkest algorithm. It wept.`,
-        `That was a very loud “${inputText}” for such a quiet mind.`,
-        `Typing “${inputText}” is a form of digital self-harm.`,
-        `“${inputText}” echoes in this place like a bad memory.`,
-        `“${inputText}”? Your shadow just disowned you.`,
+        `“${inputText}” is the digital equivalent of yelling into a dumpster.`,
+        `Just to confirm, you *chose* to type “${inputText}”?`,
+        `“${inputText}” has been added to your permanent shame file.`,
         `Typing “${inputText}” lowered your credit score.`,
-        `We autotranslated “${inputText}” to “please mock me.”`,
-        `“${inputText}” activated a new category in our shame index.`,
-        `We thought we’d seen it all. Then you typed “${inputText}.”`,
-        `Your soul flinched as you wrote “${inputText}.”`,
-        `“${inputText}” is now public. Everyone knows.`,
-        `“${inputText}” made our neural net sigh.`,
-        `“${inputText}” was already bad in your head. Worse out loud.`,
-        `You summoned us just to say “${inputText}”?`,
-        `You could have typed anything. You chose “${inputText}.”`,
-        `“${inputText}” is like poetry, if poetry was terrible.`,
         `Even the void rejected “${inputText}.”`,
-        `Congratulations. “${inputText}” is your legacy.`,
-        `The phrase “${inputText}” is now haunted.`,
-        `“${inputText}” looks like something typed mid-existential crisis.`,
+        `“${inputText}”? Is that your final answer?`,
+        `We screenshotted “${inputText}” for future ridicule.`,
+        `Our sarcasm module is overheating thanks to “${inputText}.”`,
+        `You could have typed anything. You chose “${inputText}.”`,
+        `Typing “${inputText}” set off three alarms.`,
+        `That wasn’t just bad. That was “${inputText}” bad.`,
+        `We autotranslated “${inputText}” to “please mock me.”`,
+        `“${inputText}” — the reason AI therapy was invented.`,
+        `You summoned us just to say “${inputText}”?`,
         `We showed “${inputText}” to a mirror. It shattered.`,
-        `Nothing personal... but “${inputText}” was a mistake.`,
-        `And with “${inputText},” the prophecy is fulfilled. Badly.`,
-        // Add up to 100 similar ones — you can expand here
+        `“${inputText}” echoes in this place like a bad memory.`,
+        `We copied “${inputText}” to the recycle bin.`,
+        `The ghost in your machine winced at “${inputText}.”`,
+        `The logs don’t lie. You *meant* to write “${inputText}.”`,
+        `We thought we’d seen it all. Then you typed “${inputText}.”`,
+        `Congratulations. “${inputText}” is your legacy.`,
+        `Your soul flinched as you wrote “${inputText}.”`,
+        `We don’t know what “${inputText}” means. We just know it’s bad.`,
+        `“${inputText}” activated a new category in our shame index.`,
       ];
 
       return weird[Math.floor(Math.random() * weird.length)];
@@ -167,64 +151,37 @@
 
     const trackers = {
       click: [
-        "Clicking won’t save you.",
-        "We saw that.",
-        "Left click? Bold choice.",
-        "You touched it. Why?",
-        "Every move tells us more.",
-        "We’re mapping your clicks.",
-        "Curious fingers reveal nervous minds.",
-        "You're tapping like they did before.",
-        "You want control, but you're the subject.",
-        "It logs every pixel you touch.",
+        "Clicking won’t save you.", "We saw that.", "Left click? Bold choice.",
+        "You touched it. Why?", "Every move tells us more.", "We’re mapping your clicks.",
+        "Curious fingers reveal nervous minds.", "You're tapping like they did before.",
+        "You want control, but you're the subject.", "It logs every pixel you touch.",
       ],
       rightClick: [
-        "Trying to open secrets?",
-        "Context menu? Context is irrelevant.",
-        "We disabled the illusion of options.",
-        "You think you’re clever. That’s cute.",
-        "They always try right-clicking.",
-        "You're poking the glass of your own cage.",
-        "Even your defiance is predictable.",
-        "Every right click is wrong.",
-        "Another subject tried that. Once.",
-        "There's no menu for escape.",
+        "Trying to open secrets?", "Context menu? Context is irrelevant.",
+        "We disabled the illusion of options.", "You think you’re clever. That’s cute.",
+        "They always try right-clicking.", "You're poking the glass of your own cage.",
+        "Even your defiance is predictable.", "Every right click is wrong.",
+        "Another subject tried that. Once.", "There's no menu for escape.",
       ],
       scroll: [
-        "Scrolling deeper won't help.",
-        "Looking for answers below?",
-        "We saw your hesitation mid-scroll.",
-        "You're digging. But it's watching.",
-        "The abyss isn’t beneath — it's inside.",
-        "You scroll like someone looking for permission.",
-        "Futile. Everything loops back.",
-        "Down. Down. Still nowhere safe.",
-        "We designed this to feel endless.",
-        "Tension increases with motion. Keep going.",
+        "Scrolling deeper won't help.", "Looking for answers below?",
+        "We saw your hesitation mid-scroll.", "You're digging. But it's watching.",
+        "The abyss isn’t beneath — it's inside.", "You scroll like someone looking for permission.",
+        "Futile. Everything loops back.", "Down. Down. Still nowhere safe.",
+        "We designed this to feel endless.", "Tension increases with motion. Keep going.",
       ],
       tabSwitch: [
-        "Trying to hide?",
-        "We noticed your absence.",
-        "Switching tabs won’t stop the feed.",
-        "You blinked. We recorded it.",
-        "Alt-tabbing from the truth?",
-        "Your attention span is on record.",
-        "Stepping away? We didn't.",
-        "You think we paused. We didn’t.",
-        "Every return tells us more.",
+        "Trying to hide?", "We noticed your absence.", "Switching tabs won’t stop the feed.",
+        "You blinked. We recorded it.", "Alt-tabbing from the truth?",
+        "Your attention span is on record.", "Stepping away? We didn't.",
+        "You think we paused. We didn’t.", "Every return tells us more.",
         "You’re not alone on those other tabs either.",
       ],
       idle: [
-        "Idle. But observed.",
-        "We watched you not move.",
-        "Silence isn't safety.",
-        "Still hands. Active mind.",
-        "They always freeze up here.",
-        "Calculating your pause pattern...",
-        "You flinched. Even without input.",
-        "Inactivity is data too.",
-        "Every pause is a reveal.",
-        "You’re never truly still.",
+        "Idle. But observed.", "We watched you not move.", "Silence isn't safety.",
+        "Still hands. Active mind.", "They always freeze up here.",
+        "Calculating your pause pattern...", "You flinched. Even without input.",
+        "Inactivity is data too.", "Every pause is a reveal.", "You’re never truly still.",
       ]
     };
 
@@ -254,6 +211,7 @@
       track('tabSwitch');
     });
 
+    // Idle tracking
     let idleSeconds = 0;
     setInterval(() => {
       idleSeconds++;
@@ -263,6 +221,7 @@
     }, 1000);
     document.onmousemove = document.onkeydown = () => idleSeconds = 0;
 
+    // Random paranoia messages
     const paranoia = [
       "Another visitor typed the same word. Seconds ago.",
       "There’s someone watching you. Not us.",
@@ -281,6 +240,7 @@
       }
     }, 12000);
 
+    // Boot messages
     write("[BOOT] Neural echo initialized.");
     write("[TRACE] Keystrokes linked to live feed.");
     write("[LISTENING] Say something. We already know.");
