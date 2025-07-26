@@ -1,102 +1,70 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Phantom Strike Remastered - Free Download</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Free Video Games Download</title>
   <style>
-    body { margin:0; font-family:Arial,sans-serif; background:#f5f5f5; color:#333; }
-    .container { max-width:900px; margin: auto; padding:2rem; background:white; box-shadow:0 0 15px rgba(0,0,0,0.1); }
-    .btn { padding:1rem 2rem; font-size:1.2rem; background:#007bff; color:white; border:none; cursor:pointer; border-radius:5px; margin-top:1rem; }
-    .btn:disabled { background:#ccc; cursor:not-allowed; }
-    .terms { margin-top:1rem; }
-    /* chaos */
-    .chaos-mode { background:url('https://www.toptal.com/designers/subtlepatterns/patterns/pw_maze_white.png') !important;
-                  font-family:"Comic Sans MS",cursive !important;
-                  cursor:url('https://cur.cursors-4u.net/others/oth-7/oth687.cur'),auto !important; }
-    .popup { position:absolute; width:280px; background:white; border:4px double red; box-shadow:5px 5px 0 #000;
-             padding:1rem; font-size:14px; z-index:1000; }
-    .banner { position:absolute; width:100%; text-align:center; top:20px; font-size:48px; color:lime; text-shadow:2px 2px magenta;
-              animation:flicker 0.2s infinite; z-index:999; display:none; }
-    #score { position:absolute; top:0; right:0; padding:1rem; font-size:20px; color:yellow; text-shadow:1px 1px 2px #000;
-              font-weight:bold; display:none; z-index:999; }
-    .clippy { position:absolute; width:100px; height:100px;
-              background:url('https://www.clipartmax.com/png/small/85-855284_clippit-microsoft-clippy.png') no-repeat center center;
-              background-size:contain; cursor:pointer; z-index:998; }
-    @keyframes flicker { 0%,100%{opacity:1;} 50%{opacity:0.6;} }
+    body {
+      font-family: Arial, sans-serif;
+      padding: 2rem;
+      text-align: center;
+    }
+    #downloadBtn {
+      font-size: 1.2rem;
+      padding: 1rem 2rem;
+      cursor: pointer;
+    }
   </style>
 </head>
 <body>
-<div class="container" id="mainContent">
-  <h1>Download Phantom Strike Remastered</h1>
-  <p>Experience the remastered tactical shooter everyone's talking about. Free download for a limited time.</p>
-  <ul><li>Ultra HD graphics</li><li>Multiplayer chaos</li><li>Zero microtransactions</li></ul>
-  <div class="terms">
-    <input type="checkbox" id="accept"><label for="accept"> I accept the <a href="#">terms &amp; conditions</a>.</label>
-  </div>
-  <button id="dl" class="btn" disabled>Download Now</button>
-</div>
+  <h1>Get Free Video Games Now!</h1>
+  <p>Accept the terms and click download to get your free games.</p>
+  <label>
+    <input type="checkbox" id="termsCheckbox" />
+    I accept the terms and conditions
+  </label>
+  <br /><br />
+  <button id="downloadBtn" disabled>Download</button>
 
-<div class="banner" id="chaosBanner">🔔 DOWNLOAD MORE RAM™ AVAILABLE NOW 🔔</div>
-<div id="score">Clippy Score: 0</div>
-<audio id="chaosAudio" loop>
-  <source src="https://www.myinstants.com/media/sounds/windows-xp-error.mp3" type="audio/mpeg">
-</audio>
+  <script>
+    const termsCheckbox = document.getElementById('termsCheckbox');
+    const downloadBtn = document.getElementById('downloadBtn');
 
-<script>
-  document.getElementById('accept').onchange = e => {
-    document.getElementById('dl').disabled = !e.target.checked;
-  };
-  document.getElementById('dl').onclick = enterChaos;
-
-  function enterChaos(){
-    document.body.classList.add('chaos-mode');
-    document.getElementById('mainContent').style.display='none';
-    document.getElementById('chaosBanner').style.display='block';
-    document.getElementById('score').style.display='block';
-    document.getElementById('chaosAudio').play();
-
-    // product popups
-    const ads = [
-      { title:"Toilet Milk™", image:"https://i.imgur.com/8Z0gUzv.jpeg", tagline:"Milk your commode. 2% calcium." },
-      { title:"Download More RAM™", image:"https://i.imgur.com/3oHqX9u.jpeg", tagline:"16 GB in 1 click. Probably." },
-      { title:"Adobe Sponge CC", image:"https://i.imgur.com/LIcd8lX.jpeg", tagline:"Absorbs your creativity." },
-      { title:"Windows XP Phone™", image:"https://i.imgur.com/DPXjKWB.jpeg", tagline:"Tap Start to call." }
-    ];
-    setInterval(()=>{
-      const ad=ads[Math.floor(Math.random()*ads.length)];
-      const p = document.createElement('div');
-      p.className='popup';
-      p.style.left = Math.random()*(window.innerWidth-300)+'px';
-      p.style.top = Math.random()*(window.innerHeight-220)+'px';
-      p.innerHTML = `<strong>${ad.title}</strong><br><img src="${ad.image}" width="100%"><em>${ad.tagline}</em><br><br><button onclick="this.parentNode.remove()">Buy Now</button>`;
-      document.body.appendChild(p);
-      setTimeout(()=>p.remove(),5000);
-    },1000);
-
-    // Whack-a-Clippy
-    let score=0;
-    setTimeout(()=>{ setInterval(spawnClippy,800); },10000);
-    function spawnClippy(){
-      const c = document.createElement('div');
-      c.className='clippy';
-      c.style.left=Math.random()*(window.innerWidth-100)+'px';
-      c.style.top=Math.random()*(window.innerHeight-100)+'px';
-      c.onclick = ()=>{
-        score++;
-        document.getElementById('score').innerText = 'Clippy Score: '+score;
-        c.remove();
-        if(score % 10 ===0) alert('Achievement: Office Space Champion!');
-      };
-      document.body.appendChild(c);
-      setTimeout(()=>c.remove(),2000);
-    }
-
-    window.onbeforeunload = ()=> "Wait! Your free Toilet Milk download is almost complete!";
-    document.body.addEventListener('keydown', e=>{
-      if(e.key==='Escape') alert("Escape is futile.");
+    // Enable button only if terms accepted
+    termsCheckbox.addEventListener('change', () => {
+      downloadBtn.disabled = !termsCheckbox.checked;
     });
-  }
-</script>
+
+    downloadBtn.addEventListener('click', () => {
+      // Replace page content with the prank page
+      document.body.innerHTML = `
+        <h1>Downloading...</h1>
+        <p>Preparing your free games...</p>
+      `;
+      startPrank();
+    });
+
+    function startPrank() {
+      // Hide cursor
+      document.body.style.cursor = 'none';
+
+      // Start shaking effect
+      let pos = 0;
+      const maxShake = 10;
+      function shake() {
+        const x = (Math.random() - 0.5) * maxShake;
+        const y = (Math.random() - 0.5) * maxShake;
+        document.body.style.transform = \`translate(\${x}px, \${y}px)\`;
+        requestAnimationFrame(shake);
+      }
+      shake();
+
+      // Start infinite popups every 500ms
+      setInterval(() => {
+        window.open('about:blank', '', 'width=200,height=200');
+      }, 500);
+    }
+  </script>
 </body>
 </html>
