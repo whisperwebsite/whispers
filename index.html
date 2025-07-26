@@ -4,95 +4,85 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>WhisperWeb Terminal</title>
-  <link href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&display=swap" rel="stylesheet">
   <style>
     html, body {
       margin: 0;
       padding: 0;
       height: 100%;
-      overflow: hidden;
-      font-family: 'Share Tech Mono', monospace;
       background: url('https://images.unsplash.com/photo-1586968272237-a3d597214887?q=80&w=1170&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D') no-repeat center center fixed;
       background-size: cover;
+      font-family: 'Courier New', monospace;
       color: #00ffcc;
+      overflow: hidden;
     }
 
-    .overlay {
+    #overlay {
       position: absolute;
-      top: 0; left: 0;
-      width: 100%;
-      height: 100%;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
       background: rgba(0, 0, 0, 0.75);
-      backdrop-filter: blur(4px);
-      padding: 20px;
-      box-sizing: border-box;
       display: flex;
       flex-direction: column;
+      justify-content: flex-end;
+      padding: 20px;
+      box-sizing: border-box;
     }
 
     #screen {
       flex: 1;
       overflow-y: auto;
-      white-space: pre-wrap;
+      margin-bottom: 10px;
     }
 
-    #userInput {
-      border: none;
-      background: transparent;
-      color: #00ffcc;
-      font-size: 16px;
-      outline: none;
-      width: 100%;
+    #log {
+      height: 100px;
+      overflow-y: auto;
+      font-size: 12px;
+      opacity: 0.8;
     }
 
     .glitch {
+      animation: glitch 0.3s ease-in-out alternate;
       color: #ff00cc;
-      animation: glitch 1s infinite;
     }
 
     @keyframes glitch {
-      0% { text-shadow: 2px 0 red, -2px 0 blue; }
-      25% { text-shadow: -2px 0 red, 2px 0 blue; }
-      50% { text-shadow: 2px 2px red, -2px -2px blue; }
-      75% { text-shadow: -2px 2px red, 2px -2px blue; }
-      100% { text-shadow: 2px 0 red, -2px 0 blue; }
+      0% { text-shadow: 2px 0 red, -2px 0 cyan; }
+      50% { text-shadow: -2px 0 lime, 2px 0 blue; }
+      100% { text-shadow: 2px 0 yellow, -2px 0 magenta; }
     }
 
-    .system { color: #999; }
+    input {
+      width: 100%;
+      background: black;
+      color: #00ffcc;
+      border: none;
+      font-family: inherit;
+      font-size: 16px;
+      outline: none;
+      padding: 5px;
+    }
   </style>
 </head>
 <body>
-  <div class="overlay">
+  <div id="overlay">
     <div id="screen"></div>
-    <input type="text" id="userInput" autocomplete="off" placeholder="Type a command..." />
+    <input id="userInput" type="text" placeholder="> type something...">
+    <div id="log"></div>
   </div>
-
   <script>
     const screen = document.getElementById('screen');
     const input = document.getElementById('userInput');
+    const log = document.getElementById('log');
 
-    function write(message, type = '') {
+    function write(text, glitch = false) {
       const line = document.createElement('div');
-      line.textContent = message;
-      if (type) line.classList.add(type);
+      line.textContent = text;
+      if (glitch) line.classList.add('glitch');
       screen.appendChild(line);
       screen.scrollTop = screen.scrollHeight;
-    }
-
-    function mockResponse(inputText) {
-      const responses = [
-        `Wow. "${inputText}". That's your brain at full power, huh?`,
-        `Typing “${inputText}” doesn't make you smarter, you know.`,
-        `You really thought “${inputText}” was profound? That's adorable.`,
-        `Even your keyboard is embarrassed you typed “${inputText}.”`,
-        `Stop pretending. We see through “${inputText}.”`,
-        `Oh no... you're serious. You *meant* to type “${inputText}.”`,
-        `“${inputText}” just got flagged by our cringe detector.`,
-        `“${inputText}”? You call *that* a thought?`,
-        `“${inputText}” echoes in this place like a bad memory.`,
-        `We showed “${inputText}” to a mirror. It shattered.`
-      ];
-      return responses[Math.floor(Math.random() * responses.length)];
     }
 
     input.addEventListener('keydown', (e) => {
@@ -100,24 +90,104 @@
         const val = input.value.trim();
         if (val) {
           write(`> ${val}`);
-          setTimeout(() => write(mockResponse(val), 'glitch'), 400);
+          const response = mockResponse(val);
+          setTimeout(() => write(response, true), 300);
         }
         input.value = '';
       }
     });
 
-    // Trackers
+    function mockResponse(inputText) {
+      const weird = [
+        `Wow. "${inputText}". That's your brain at full power, huh?`,
+        `Typing “${inputText}” doesn't make you smarter, you know.`,
+        `Even your keyboard is embarrassed by “${inputText}.”`,
+        `“${inputText}”... this is how villain origin stories begin.`,
+        `You typed “${inputText}” like you thought it mattered.`,
+        `“${inputText}” is the digital equivalent of yelling into a dumpster.`,
+        `“${inputText}”? You call *that* a thought?`,
+        `Our system read “${inputText}” and quietly judged you.`,
+        `“${inputText}” was already bad in your head. Worse out loud.`,
+        `“${inputText}” triggered our existential dread protocol.`,
+        `Please don't say “${inputText}” out loud. It might echo.`,
+        `“${inputText}” was heard by the wrong entities.`,
+        `“${inputText}” has been added to your permanent shame file.`,
+        `“${inputText}” made the server feel pain.`,
+        `Congratulations. “${inputText}” is your legacy.`
+      ];
+      return weird[Math.floor(Math.random() * weird.length)];
+    }
+
     const trackers = {
-      click: ["Click registered.", "That was predictable.", "Left click? Basic."],
-      rightClick: ["Right click? Trying secrets?", "Context doesn’t exist here."],
-      scroll: ["Scrolling deeper?", "You won't find solace below."],
-      tabSwitch: ["We saw you leave.", "Trying to hide, aren’t you?"],
-      idle: ["You went still.", "Waiting won't stop this."]
+      click: [
+        "Clicking won’t save you.",
+        "We saw that.",
+        "Left click? Bold choice.",
+        "You touched it. Why?",
+        "Every move tells us more.",
+        "You're tapping like they did before.",
+        "You want control, but you're the subject.",
+        "It logs every pixel you touch.",
+        "Curious fingers reveal nervous minds.",
+        "We’re mapping your clicks."
+      ],
+      rightClick: [
+        "Trying to open secrets?",
+        "Context menu? Context is irrelevant.",
+        "You think you’re clever. That’s cute.",
+        "Even your defiance is predictable.",
+        "There’s no menu for escape.",
+        "You’re poking the glass of your own cage.",
+        "Every right click is wrong.",
+        "Another subject tried that. Once.",
+        "You're not alone with that idea.",
+        "You’re not the first to try."
+      ],
+      scroll: [
+        "Scrolling deeper won't help.",
+        "Looking for answers below?",
+        "You scroll like someone looking for permission.",
+        "Futile. Everything loops back.",
+        "Down. Down. Still nowhere safe.",
+        "We designed this to feel endless.",
+        "Tension increases with motion. Keep going.",
+        "Digging. Watching. Logging.",
+        "Every scroll maps your mind.",
+        "Endlessness is part of the design."
+      ],
+      tabSwitch: [
+        "Trying to hide?",
+        "We noticed your absence.",
+        "Switching tabs won’t stop the feed.",
+        "Alt-tabbing from the truth?",
+        "Your attention span is on record.",
+        "Stepping away? We didn’t.",
+        "Every return tells us more.",
+        "Someone else peeked while you were gone.",
+        "You blinked. We recorded it.",
+        "You’re not alone on those other tabs either."
+      ],
+      idle: [
+        "Idle. But observed.",
+        "We watched you not move.",
+        "Silence isn't safety.",
+        "Still hands. Active mind.",
+        "They always freeze up here.",
+        "Calculating your pause pattern...",
+        "Inactivity is data too.",
+        "Every pause is a reveal.",
+        "You’re never truly still.",
+        "You flinched. Even without input."
+      ]
     };
 
     function track(type) {
-      const phrase = trackers[type][Math.floor(Math.random() * trackers[type].length)];
-      write(`[TRACK] ${phrase}`, 'system');
+      if (!trackers[type]) return;
+      const phrase = trackers[type][Math.floor(Math.random() * 10)];
+      const line = document.createElement('div');
+      line.textContent = `[TRACK] ${phrase}`;
+      log.appendChild(line);
+      log.scrollTop = log.scrollHeight;
     }
 
     document.addEventListener('click', e => {
@@ -129,38 +199,51 @@
       track('rightClick');
     });
 
-    window.addEventListener('scroll', () => track('scroll'));
-
-    document.addEventListener('visibilitychange', () => {
-      if (document.hidden) track('tabSwitch');
+    window.addEventListener('scroll', () => {
+      track('scroll');
     });
 
-    // Idle detection
-    let idleTime = 0;
-    setInterval(() => {
-      idleTime++;
-      if (idleTime === 10 || idleTime === 30) track('idle');
-    }, 1000);
-    document.onmousemove = document.onkeydown = () => idleTime = 0;
+    document.addEventListener('visibilitychange', () => {
+      if (document.hidden) {
+        track('tabSwitch');
+      } else {
+        track('tabSwitch');
+      }
+    });
 
-    // Paranoia messages
+    let idleSeconds = 0;
+    setInterval(() => {
+      idleSeconds++;
+      if ([10, 30, 60].includes(idleSeconds)) {
+        track("idle");
+      }
+    }, 1000);
+
+    document.onmousemove = document.onkeydown = () => idleSeconds = 0;
+
     const paranoia = [
-      "Another visitor typed the same thing.",
-      "You’re being watched.",
-      "Shadow session mirrored.",
-      "We’ve replayed this before.",
-      "You're not the only one typing.",
+      "Another visitor typed the same word. Seconds ago.",
+      "There’s someone watching you. Not us.",
+      "Anomaly. This input wasn’t expected.",
+      "Someone else is reading your screen.",
+      "Shadow session mirrored. Confirmed.",
+      "Fingerprint match: partial duplicate.",
+      "Ghost input detected from another user.",
+      "We've replayed this moment before.",
+      "Desync event. You're not alone.",
+      "Echo detected. Not from you."
     ];
+
     setInterval(() => {
       if (Math.random() < 0.25) {
-        write(`[ALERT] ${paranoia[Math.floor(Math.random() * paranoia.length)]}`, 'glitch');
+        write(`[ALERT] ${paranoia[Math.floor(Math.random() * paranoia.length)]}`, true);
       }
     }, 12000);
 
-    // Boot messages
-    write("[BOOT] Neural echo initialized.", 'system');
-    write("[TRACE] Keystrokes linked.", 'system');
-    write("[LISTENING] Say something. We already know.", 'system');
+    // Boot
+    setTimeout(() => write("[BOOT] Neural echo initialized."), 100);
+    setTimeout(() => write("[TRACE] Keystrokes linked to live feed."), 800);
+    setTimeout(() => write("[LISTENING] Say something. We already know."), 1600);
   </script>
 </body>
 </html>
