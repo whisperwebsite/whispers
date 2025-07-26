@@ -1,150 +1,186 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>404Forever – Infinite Chaos</title>
+  <title>Welcome to THE Site</title>
   <style>
-    html, body {
-      margin: 0;
-      padding: 0;
-      overflow: hidden;
-      background: black;
+    body {
+      background-image: url('https://www.transparenttextures.com/patterns/black-felt.png');
       color: lime;
-      font-family: 'Comic Sans MS', cursive;
-      height: 100vh;
+      font-family: "Comic Sans MS", cursive, sans-serif;
+      animation: bgFlash 2s infinite;
     }
-    #app {
-      position: relative;
+    @keyframes bgFlash {
+      0% { background-color: black; }
+      50% { background-color: darkmagenta; }
+      100% { background-color: black; }
+    }
+    .marquee {
       width: 100%;
-      height: 100%;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      flex-direction: column;
-      z-index: 1;
-    }
-    .trap {
-      display: none;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      height: 100%;
-      width: 100%;
-      position: absolute;
-      top: 0;
-      left: 0;
-      z-index: 2;
-      background: rgba(0, 0, 0, 0.95);
-    }
-    .trap.active {
-      display: flex;
-    }
-    button {
-      padding: 20px;
-      font-size: 1.5rem;
-      cursor: pointer;
-      margin: 20px;
+      overflow: hidden;
+      white-space: nowrap;
+      box-sizing: border-box;
+      border: 3px dashed yellow;
+      font-size: 20px;
     }
     .popup {
       position: absolute;
-      background: red;
-      color: white;
+      top: 100px;
+      left: 100px;
+      width: 200px;
+      height: 100px;
+      background: hotpink;
+      border: 4px ridge cyan;
+      z-index: 1000;
       padding: 10px;
-      font-size: 1rem;
-      z-index: 9999;
-      animation: fadeout 5s forwards;
+      box-shadow: 0 0 10px magenta;
     }
-    @keyframes fadeout {
-      0% { opacity: 1; }
-      100% { opacity: 0; }
+    .fake-ad {
+      background: yellow;
+      border: 3px dotted red;
+      padding: 10px;
+      margin: 10px;
+      animation: shake 0.5s infinite;
+    }
+    @keyframes shake {
+      0% { transform: translate(1px, 1px); }
+      25% { transform: translate(-1px, 2px); }
+      50% { transform: translate(-2px, -1px); }
+      75% { transform: translate(1px, -2px); }
+      100% { transform: translate(2px, 1px); }
+    }
+    .mouse-trail {
+      position: absolute;
+      width: 10px;
+      height: 10px;
+      background: red;
+      border-radius: 50%;
+      pointer-events: none;
+      z-index: 9999;
+    }
+    .moving-button {
+      position: absolute;
+      padding: 10px;
+      background: lime;
+      border: 2px solid black;
+      font-weight: bold;
+      cursor: pointer;
+      transition: 0.2s ease-in-out;
+    }
+    #chatbot-box {
+      position: fixed;
+      bottom: 10px;
+      right: 10px;
+      background: black;
+      color: lime;
+      border: 2px groove magenta;
+      padding: 10px;
+      width: 200px;
+      height: 150px;
+      overflow-y: auto;
+      font-size: 12px;
+    }
+    #chat-input {
+      width: 100%;
+      border: none;
+      padding: 5px;
+      font-size: 12px;
+      background: #111;
+      color: lime;
     }
   </style>
 </head>
 <body>
-  <div id="app">
-    <h1>Welcome to 404Forever</h1>
-    <button id="startButton">Enter the Chaos</button>
+  <h1 style="text-align:center; font-size:48px;">WELCOME TO THE INTERNET</h1>
+  <div class="marquee">
+    <marquee>🔥 Click HERE to WIN A FREE MODEM 🔥 &nbsp;&nbsp;&nbsp;&nbsp; 💾 SIGN MY GUESTBOOK 💾 &nbsp;&nbsp;&nbsp;&nbsp; 🚨 VIRUS ALERT! 🚨</marquee>
   </div>
 
-  <!-- Trap Rooms -->
-  <div class="trap" id="trap-captcha">
-    <h2>Prove you’re human. Again.</h2>
-    <button onclick="spawnPopup('Wrong answer.')">I am not a robot</button>
-    <button onclick="spawnPopup('Still wrong.')">Definitely human</button>
-    <button onclick="spawnPopup('Nope.')">Trust me</button>
+  <div class="fake-ad">🔞 Click here for FREE INTERNET FOR LIFE! 🔞</div>
+  <div class="fake-ad">👀 Doctors HATE her! See how she defeated the Internet! 👀</div>
+
+  <button onclick="openPopup()">Close Ad</button>
+  <button id="runawayBtn" class="moving-button" style="top:300px; left:300px;">Click Me!</button>
+
+  <div id="chatbot-box">
+    <div id="chat-log">🤖 I'm Clippy’s weird cousin. Ask me anything, meatbag.<br></div>
+    <input id="chat-input" placeholder="Type here..." onkeydown="handleChat(event)">
   </div>
 
-  <div class="trap" id="trap-invert">
-    <h2>Everything is upside down now.</h2>
-    <p>Good luck reading this.</p>
-  </div>
-
-  <div class="trap" id="trap-glitch">
-    <h2>GL1TCH M0D3 ACT1V4TED</h2>
-    <p>Reality is broken.</p>
-  </div>
+  <audio id="clickSound">
+    <source src="https://www.soundjay.com/button/beep-07.wav" type="audio/wav">
+  </audio>
+  <audio id="bgMusic" autoplay loop>
+    <source src="https://www.mfiles.co.uk/mp3-downloads/toccata-dorian-bwv538.mp3" type="audio/mpeg">
+  </audio>
 
   <script>
-    const app = document.getElementById('app');
-    const traps = [
-      document.getElementById('trap-captcha'),
-      document.getElementById('trap-invert'),
-      document.getElementById('trap-glitch')
-    ];
+    // Mouse trail
+    document.addEventListener("mousemove", function(e) {
+      let dot = document.createElement("div");
+      dot.className = "mouse-trail";
+      dot.style.left = e.pageX + 'px';
+      dot.style.top = e.pageY + 'px';
+      document.body.appendChild(dot);
+      setTimeout(() => dot.remove(), 500);
+    });
 
-    document.getElementById('startButton').onclick = () => {
-      app.style.display = 'none';
-      startChaos();
+    // Click mocking
+    let clickCount = 0;
+    document.addEventListener("click", () => {
+      clickCount++;
+      document.getElementById("clickSound").play();
+      if (clickCount % 5 === 0) {
+        alert("Wow. " + clickCount + " clicks. You're really committed to this...");
+      }
+    });
+
+    // Pop-up madness
+    function openPopup() {
+      let popup = document.createElement("div");
+      popup.className = "popup";
+      popup.innerHTML = `
+        <b>ERROR:</b> You tried to close the ad!<br>
+        <button onclick=\"this.parentElement.remove()\">Try Again</button>
+      `;
+      popup.style.top = Math.random() * window.innerHeight + 'px';
+      popup.style.left = Math.random() * window.innerWidth + 'px';
+      document.body.appendChild(popup);
+    }
+
+    // Moving button
+    const runBtn = document.getElementById("runawayBtn");
+    runBtn.addEventListener("mouseover", () => {
+      runBtn.style.top = Math.random() * (window.innerHeight - 50) + 'px';
+      runBtn.style.left = Math.random() * (window.innerWidth - 100) + 'px';
+    });
+
+    // Fake chatbot
+    function handleChat(e) {
+      if (e.key === "Enter") {
+        let input = e.target.value;
+        let response = getBotResponse(input);
+        let log = document.getElementById("chat-log");
+        log.innerHTML += `<br>🧍 ${input}<br>🤖 ${response}`;
+        e.target.value = "";
+        log.scrollTop = log.scrollHeight;
+      }
+    }
+
+    function getBotResponse(input) {
+      const insults = [
+        "Nice try.",
+        "You really typed that?", 
+        "404: Intelligence not found.",
+        "Ask a better question.",
+        "Go touch grass."
+      ];
+      return insults[Math.floor(Math.random() * insults.length)];
+    }
+
+    // Rage quit detection
+    window.onbeforeunload = function() {
+      return "You're just going to leave like that? We were just getting started!";
     };
-
-    function startChaos() {
-      chaosLoop();
-      setInterval(() => {
-        const trap = traps[Math.floor(Math.random() * traps.length)];
-        traps.forEach(t => t.classList.remove('active'));
-        trap.classList.add('active');
-        setTimeout(() => trap.classList.remove('active'), 6000);
-      }, 10000);
-    }
-
-    function chaosLoop() {
-      setInterval(() => {
-        const event = Math.floor(Math.random() * 6);
-        switch (event) {
-          case 0:
-            document.body.style.background = `hsl(${Math.random()*360}, 100%, 10%)`;
-            break;
-          case 1:
-            spawnPopup("Error 0xD3AD: You've been compromised.");
-            break;
-          case 2:
-            document.body.style.transform = 'scaleX(-1)';
-            setTimeout(() => document.body.style.transform = 'none', 3000);
-            break;
-          case 3:
-            const sound = new Audio('https://www.myinstants.com/media/sounds/metal-pipe-clang.mp3');
-            sound.play();
-            break;
-          case 4:
-            window.open('https://theuselessweb.com/', '_blank');
-            break;
-          case 5:
-            spawnPopup("You shouldn't be here.");
-            break;
-        }
-      }, 4000);
-    }
-
-    function spawnPopup(text) {
-      const div = document.createElement('div');
-      div.className = 'popup';
-      div.innerText = text;
-      div.style.top = Math.random() * (window.innerHeight - 50) + 'px';
-      div.style.left = Math.random() * (window.innerWidth - 200) + 'px';
-      document.body.appendChild(div);
-      setTimeout(() => div.remove(), 5000);
-    }
   </script>
 </body>
 </html>
