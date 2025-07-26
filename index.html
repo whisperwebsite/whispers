@@ -1,249 +1,177 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>WhisperWeb Terminal</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Ultimate Chaos 2.0</title>
   <style>
-    html, body {
+    body {
       margin: 0;
       padding: 0;
-      height: 100%;
-      background: url('https://images.unsplash.com/photo-1586968272237-a3d597214887?q=80&w=1170&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D') no-repeat center center fixed;
-      background-size: cover;
-      font-family: 'Courier New', monospace;
-      color: #00ffcc;
       overflow: hidden;
+      font-family: "Comic Sans MS", cursive, sans-serif;
+      animation: spinBackground 5s linear infinite;
     }
-
-    #overlay {
+    @keyframes spinBackground {
+      0% { background-color: red; }
+      25% { background-color: lime; }
+      50% { background-color: blue; }
+      75% { background-color: yellow; }
+      100% { background-color: red; }
+    }
+    .chaos {
       position: absolute;
       top: 0;
       left: 0;
-      right: 0;
-      bottom: 0;
-      background: rgba(0, 0, 0, 0.75);
-      display: flex;
-      flex-direction: column;
-      justify-content: flex-end;
-      padding: 20px;
-      box-sizing: border-box;
+      width: 100vw;
+      height: 100vh;
+      pointer-events: none;
     }
-
-    #screen {
-      flex: 1;
-      overflow-y: auto;
-      margin-bottom: 10px;
+    .flash {
+      animation: flashColors 0.5s infinite;
     }
-
-    #log {
-      height: 100px;
-      overflow-y: auto;
-      font-size: 12px;
-      opacity: 0.8;
+    @keyframes flashColors {
+      0% { filter: hue-rotate(0deg); }
+      50% { filter: hue-rotate(180deg); }
+      100% { filter: hue-rotate(360deg); }
     }
-
-    .glitch {
-      animation: glitch 0.3s ease-in-out alternate;
-      color: #ff00cc;
+    .marquee {
+      position: fixed;
+      white-space: nowrap;
+      animation: scroll 5s linear infinite;
+      font-size: 3em;
+      color: #fff;
+      text-shadow: 2px 2px 10px black;
     }
-
-    @keyframes glitch {
-      0% { text-shadow: 2px 0 red, -2px 0 cyan; }
-      50% { text-shadow: -2px 0 lime, 2px 0 blue; }
-      100% { text-shadow: 2px 0 yellow, -2px 0 magenta; }
+    @keyframes scroll {
+      0% { transform: translateX(100%); }
+      100% { transform: translateX(-100%); }
     }
-
-    input {
-      width: 100%;
-      background: black;
-      color: #00ffcc;
-      border: none;
-      font-family: inherit;
-      font-size: 16px;
-      outline: none;
-      padding: 5px;
+    .spinning {
+      animation: spin 2s linear infinite;
+    }
+    @keyframes spin {
+      from { transform: rotate(0deg); }
+      to { transform: rotate(360deg); }
+    }
+    .wobble {
+      animation: wobble 1s ease-in-out infinite;
+    }
+    @keyframes wobble {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-20px); }
+    }
+    .popup {
+      position: absolute;
+      background: rgba(255,0,255,0.8);
+      color: #fff;
+      padding: 10px;
+      font-size: 1.5em;
+      border-radius: 10px;
+      transform: rotate(-20deg);
+      animation: floatPopup 3s infinite;
+    }
+    @keyframes floatPopup {
+      0% { transform: translateY(0) rotate(-20deg); }
+      50% { transform: translateY(-20px) rotate(20deg); }
+      100% { transform: translateY(0) rotate(-20deg); }
     }
   </style>
 </head>
 <body>
-  <div id="overlay">
-    <div id="screen"></div>
-    <input id="userInput" type="text" placeholder="> type something...">
-    <div id="log"></div>
+  <audio autoplay loop>
+    <source src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3" type="audio/mpeg">
+  </audio>
+
+  <div class="chaos flash">
+    <canvas id="chaosCanvas"></canvas>
   </div>
+
+  <div class="marquee spinning" style="top: 10%">🌀 THE INTERNET IS MELTING 🌀</div>
+  <div class="marquee wobble" style="top: 30%; animation-duration: 3s">💥 CHAOS MODE ENABLED 💥</div>
+  <div class="marquee spinning" style="top: 50%; animation-duration: 4s">🔥 EVERYTHING IS LOUD 🔥</div>
+  <div class="marquee wobble" style="top: 70%; animation-duration: 2s">🌪️ RUN WHILE YOU CAN 🌪️</div>
+
   <script>
-    const screen = document.getElementById('screen');
-    const input = document.getElementById('userInput');
-    const log = document.getElementById('log');
+    const canvas = document.getElementById('chaosCanvas');
+    const ctx = canvas.getContext('2d');
+    canvas.width = window.innerWidth;
+    canvas.height = window.innerHeight;
 
-    function write(text, glitch = false) {
-      const line = document.createElement('div');
-      line.textContent = text;
-      if (glitch) line.classList.add('glitch');
-      screen.appendChild(line);
-      screen.scrollTop = screen.scrollHeight;
+    const particles = [];
+    for (let i = 0; i < 300; i++) {
+      particles.push({
+        x: Math.random() * canvas.width,
+        y: Math.random() * canvas.height,
+        r: Math.random() * 10 + 2,
+        dx: Math.random() * 4 - 2,
+        dy: Math.random() * 4 - 2
+      });
     }
 
-    input.addEventListener('keydown', (e) => {
-      if (e.key === 'Enter') {
-        const val = input.value.trim();
-        if (val) {
-          write(`> ${val}`);
-          const response = mockResponse(val);
-          setTimeout(() => write(response, true), 300);
-        }
-        input.value = '';
-      }
-    });
+    function drawParticles() {
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      particles.forEach(p => {
+        ctx.beginPath();
+        ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
+        ctx.fillStyle = `rgba(${Math.floor(Math.random()*255)}, ${Math.floor(Math.random()*255)}, ${Math.floor(Math.random()*255)}, 0.8)`;
+        ctx.fill();
 
-    function mockResponse(inputText) {
-      const weird = [
-        `Wow. "${inputText}". That's your brain at full power, huh?`,
-        `Typing “${inputText}” doesn't make you smarter, you know.`,
-        `Even your keyboard is embarrassed by “${inputText}.”`,
-        `“${inputText}”... this is how villain origin stories begin.`,
-        `You typed “${inputText}” like you thought it mattered.`,
-        `“${inputText}” is the digital equivalent of yelling into a dumpster.`,
-        `“${inputText}”? You call *that* a thought?`,
-        `Our system read “${inputText}” and quietly judged you.`,
-        `“${inputText}” was already bad in your head. Worse out loud.`,
-        `“${inputText}” triggered our existential dread protocol.`,
-        `Please don't say “${inputText}” out loud. It might echo.`,
-        `“${inputText}” was heard by the wrong entities.`,
-        `“${inputText}” has been added to your permanent shame file.`,
-        `“${inputText}” made the server feel pain.`,
-        `Congratulations. “${inputText}” is your legacy.`
-      ];
-      return weird[Math.floor(Math.random() * weird.length)];
+        p.x += p.dx;
+        p.y += p.dy;
+
+        if (p.x < 0 || p.x > canvas.width) p.dx *= -1;
+        if (p.y < 0 || p.y > canvas.height) p.dy *= -1;
+      });
+      requestAnimationFrame(drawParticles);
     }
 
-    const trackers = {
-      click: [
-        "Clicking won’t save you.",
-        "We saw that.",
-        "Left click? Bold choice.",
-        "You touched it. Why?",
-        "Every move tells us more.",
-        "You're tapping like they did before.",
-        "You want control, but you're the subject.",
-        "It logs every pixel you touch.",
-        "Curious fingers reveal nervous minds.",
-        "We’re mapping your clicks."
-      ],
-      rightClick: [
-        "Trying to open secrets?",
-        "Context menu? Context is irrelevant.",
-        "You think you’re clever. That’s cute.",
-        "Even your defiance is predictable.",
-        "There’s no menu for escape.",
-        "You’re poking the glass of your own cage.",
-        "Every right click is wrong.",
-        "Another subject tried that. Once.",
-        "You're not alone with that idea.",
-        "You’re not the first to try."
-      ],
-      scroll: [
-        "Scrolling deeper won't help.",
-        "Looking for answers below?",
-        "You scroll like someone looking for permission.",
-        "Futile. Everything loops back.",
-        "Down. Down. Still nowhere safe.",
-        "We designed this to feel endless.",
-        "Tension increases with motion. Keep going.",
-        "Digging. Watching. Logging.",
-        "Every scroll maps your mind.",
-        "Endlessness is part of the design."
-      ],
-      tabSwitch: [
-        "Trying to hide?",
-        "We noticed your absence.",
-        "Switching tabs won’t stop the feed.",
-        "Alt-tabbing from the truth?",
-        "Your attention span is on record.",
-        "Stepping away? We didn’t.",
-        "Every return tells us more.",
-        "Someone else peeked while you were gone.",
-        "You blinked. We recorded it.",
-        "You’re not alone on those other tabs either."
-      ],
-      idle: [
-        "Idle. But observed.",
-        "We watched you not move.",
-        "Silence isn't safety.",
-        "Still hands. Active mind.",
-        "They always freeze up here.",
-        "Calculating your pause pattern...",
-        "Inactivity is data too.",
-        "Every pause is a reveal.",
-        "You’re never truly still.",
-        "You flinched. Even without input."
-      ]
-    };
+    drawParticles();
 
-    function track(type) {
-      if (!trackers[type]) return;
-      const phrase = trackers[type][Math.floor(Math.random() * 10)];
-      const line = document.createElement('div');
-      line.textContent = `[TRACK] ${phrase}`;
-      log.appendChild(line);
-      log.scrollTop = log.scrollHeight;
+    // Mouse trail chaos
+    const trail = [];
+    window.addEventListener('mousemove', e => {
+      trail.push({ x: e.clientX, y: e.clientY, time: Date.now() });
+      if (trail.length > 150) trail.shift();
+    });
+
+    function drawTrail() {
+      trail.forEach(point => {
+        ctx.beginPath();
+        ctx.arc(point.x, point.y, 5, 0, 2 * Math.PI);
+        ctx.fillStyle = `hsl(${(Date.now() - point.time) % 360}, 100%, 50%)`;
+        ctx.fill();
+      });
+      requestAnimationFrame(drawTrail);
+    }
+    drawTrail();
+
+    // Random Popups
+    function createPopup() {
+      const popup = document.createElement("div");
+      popup.className = "popup";
+      popup.innerText = "⚠ CHAOS ALERT!";
+      popup.style.top = Math.random() * window.innerHeight + 'px';
+      popup.style.left = Math.random() * window.innerWidth + 'px';
+      document.body.appendChild(popup);
+
+      setTimeout(() => {
+        popup.remove();
+      }, 5000);
     }
 
-    document.addEventListener('click', e => {
-      if (e.button === 0) track('click');
+    setInterval(createPopup, 300);
+
+    // Keyboard spam
+    document.addEventListener("keydown", e => {
+      const el = document.createElement("div");
+      el.className = "popup";
+      el.innerText = `Key: ${e.key}`;
+      el.style.top = Math.random() * window.innerHeight + 'px';
+      el.style.left = Math.random() * window.innerWidth + 'px';
+      document.body.appendChild(el);
+      setTimeout(() => el.remove(), 3000);
     });
-
-    document.addEventListener('contextmenu', e => {
-      e.preventDefault();
-      track('rightClick');
-    });
-
-    window.addEventListener('scroll', () => {
-      track('scroll');
-    });
-
-    document.addEventListener('visibilitychange', () => {
-      if (document.hidden) {
-        track('tabSwitch');
-      } else {
-        track('tabSwitch');
-      }
-    });
-
-    let idleSeconds = 0;
-    setInterval(() => {
-      idleSeconds++;
-      if ([10, 30, 60].includes(idleSeconds)) {
-        track("idle");
-      }
-    }, 1000);
-
-    document.onmousemove = document.onkeydown = () => idleSeconds = 0;
-
-    const paranoia = [
-      "Another visitor typed the same word. Seconds ago.",
-      "There’s someone watching you. Not us.",
-      "Anomaly. This input wasn’t expected.",
-      "Someone else is reading your screen.",
-      "Shadow session mirrored. Confirmed.",
-      "Fingerprint match: partial duplicate.",
-      "Ghost input detected from another user.",
-      "We've replayed this moment before.",
-      "Desync event. You're not alone.",
-      "Echo detected. Not from you."
-    ];
-
-    setInterval(() => {
-      if (Math.random() < 0.25) {
-        write(`[ALERT] ${paranoia[Math.floor(Math.random() * paranoia.length)]}`, true);
-      }
-    }, 12000);
-
-    // Boot
-    setTimeout(() => write("[BOOT] Neural echo initialized."), 100);
-    setTimeout(() => write("[TRACE] Keystrokes linked to live feed."), 800);
-    setTimeout(() => write("[LISTENING] Say something. We already know."), 1600);
   </script>
 </body>
 </html>
