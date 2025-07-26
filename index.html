@@ -42,57 +42,11 @@
     .hidden {
       display: none;
     }
-  </style>
-</head>
-<body>
-  <div class="container">
-    <h1 class="title">Download Phantom Strike Remastered</h1>
-    <p>Experience the remastered tactical shooter everyone's talking about. Free download for a limited time.</p>
-    <ul>
-      <li>Ultra HD graphics</li>
-      <li>Multiplayer chaos</li>
-      <li>Zero microtransactions</li>
-    </ul>
-
-    <div class="terms">
-      <input type="checkbox" id="acceptTerms"> <label for="acceptTerms">I accept the <a href="#">terms and conditions</a>.</label>
-    </div>
-
-    <button id="downloadBtn" class="btn" disabled>Download Now</button>
-  </div>
-
-  <script>
-    const checkbox = document.getElementById('acceptTerms');
-    const downloadBtn = document.getElementById('downloadBtn');
-
-    checkbox.addEventListener('change', () => {
-      downloadBtn.disabled = !checkbox.checked;
-    });
-
-    downloadBtn.addEventListener('click', () => {
-      window.location.href = "chaos.html";
-    });
-  </script>
-</body>
-</html>
-
-<!-- chaos.html starts below -->
-
-<!-- chaos.html -->
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Initializing Download...</title>
-  <style>
-    html, body {
-      margin: 0;
-      padding: 0;
-      overflow: hidden;
-      background: url('https://www.toptal.com/designers/subtlepatterns/patterns/pw_maze_white.png');
-      font-family: Comic Sans MS, cursive;
-      cursor: url('https://cur.cursors-4u.net/others/oth-7/oth687.cur'), auto;
+    /* Chaos styles */
+    .chaos-mode {
+      background: url('https://www.toptal.com/designers/subtlepatterns/patterns/pw_maze_white.png') !important;
+      font-family: Comic Sans MS, cursive !important;
+      cursor: url('https://cur.cursors-4u.net/others/oth-7/oth687.cur'), auto !important;
     }
     .popup {
       position: absolute;
@@ -114,6 +68,13 @@
       color: lime;
       text-shadow: 2px 2px magenta;
       animation: flicker 0.2s infinite;
+      z-index: 9999;
+      display: none;
+    }
+    @keyframes flicker {
+      0% {opacity: 1;}
+      50% {opacity: 0.6;}
+      100% {opacity: 1;}
     }
     .clippy {
       position: absolute;
@@ -133,99 +94,129 @@
       color: yellow;
       text-shadow: 1px 1px 2px #000;
       font-weight: bold;
-    }
-    @keyframes flicker {
-      0% {opacity: 1;}
-      50% {opacity: 0.6;}
-      100% {opacity: 1;}
+      display: none;
     }
   </style>
 </head>
 <body>
-  <audio autoplay loop>
+  <div class="container" id="mainContent">
+    <h1 class="title">Download Phantom Strike Remastered</h1>
+    <p>Experience the remastered tactical shooter everyone's talking about. Free download for a limited time.</p>
+    <ul>
+      <li>Ultra HD graphics</li>
+      <li>Multiplayer chaos</li>
+      <li>Zero microtransactions</li>
+    </ul>
+
+    <div class="terms">
+      <input type="checkbox" id="acceptTerms"> <label for="acceptTerms">I accept the <a href="#">terms and conditions</a>.</label>
+    </div>
+
+    <button id="downloadBtn" class="btn" disabled>Download Now</button>
+  </div>
+
+  <div class="banner" id="chaosBanner">🔔 DOWNLOAD MORE RAM™ AVAILABLE NOW 🔔</div>
+  <div id="score">Clippy Score: 0</div>
+  <audio id="chaosAudio" loop>
     <source src="https://www.myinstants.com/media/sounds/windows-xp-error.mp3" type="audio/mpeg">
   </audio>
 
-  <div class="banner">🔔 DOWNLOAD MORE RAM™ AVAILABLE NOW 🔔</div>
-  <div id="score">Clippy Score: 0</div>
-
   <script>
-    function createPopup(content, x, y) {
-      const popup = document.createElement('div');
-      popup.classList.add('popup');
-      popup.style.left = `${x}px`;
-      popup.style.top = `${y}px`;
-      popup.innerHTML = `
-        <strong>${content.title}</strong><br>
-        <img src="${content.image}" width="100%"><br>
-        <em>${content.tagline}</em><br><br>
-        <button onclick="alert('Order Failed: Insufficient RAM')">Buy Now</button>
-      `;
-      document.body.appendChild(popup);
-    }
+    const checkbox = document.getElementById('acceptTerms');
+    const downloadBtn = document.getElementById('downloadBtn');
 
-    const trollProducts = [
-      {
-        title: "Toilet Milk™",
-        image: "https://i.imgur.com/8Z0gUzv.jpeg",
-        tagline: "Milk your commode. Now with 2% calcium."
-      },
-      {
-        title: "Download More RAM™",
-        image: "https://i.imgur.com/3oHqX9u.jpeg",
-        tagline: "16GB in 1 click. Probably."
-      },
-      {
-        title: "Adobe Sponge CC",
-        image: "https://i.imgur.com/LIcd8lX.jpeg",
-        tagline: "Absorbs your creativity."
-      },
-      {
-        title: "Windows XP Phone™",
-        image: "https://i.imgur.com/DPXjKWB.jpeg",
-        tagline: "Tap Start to call."
-      }
-    ];
-
-    setInterval(() => {
-      const product = trollProducts[Math.floor(Math.random() * trollProducts.length)];
-      createPopup(product, Math.random() * window.innerWidth - 300, Math.random() * window.innerHeight - 200);
-    }, 1000);
-
-    window.onbeforeunload = function() {
-      return "Wait! Your free Toilet Milk download is almost complete!";
-    };
-
-    document.body.addEventListener('keydown', (e) => {
-      if (e.key === 'Escape') {
-        alert("Escape is futile.");
-      }
+    checkbox.addEventListener('change', () => {
+      downloadBtn.disabled = !checkbox.checked;
     });
 
-    // Whack-a-Clippy Logic
-    let clippyScore = 0;
-    function spawnClippy() {
-      const clippy = document.createElement('div');
-      clippy.classList.add('clippy');
-      clippy.style.left = `${Math.random() * (window.innerWidth - 100)}px`;
-      clippy.style.top = `${Math.random() * (window.innerHeight - 100)}px`;
-      clippy.title = "It looks like you're trying to click me!";
-      clippy.onclick = () => {
-        clippyScore++;
-        document.getElementById('score').innerText = `Clippy Score: ${clippyScore}`;
-        clippy.remove();
-        if (clippyScore % 10 === 0) alert("Achievement Unlocked: Office Space Champion!");
-      };
-      document.body.appendChild(clippy);
+    downloadBtn.addEventListener('click', () => {
+      enterChaosMode();
+    });
+
+    function enterChaosMode() {
+      document.body.classList.add('chaos-mode');
+      document.getElementById('mainContent').style.display = 'none';
+      document.getElementById('chaosBanner').style.display = 'block';
+      document.getElementById('score').style.display = 'block';
+      document.getElementById('chaosAudio').play();
+
+      const trollProducts = [
+        {
+          title: "Toilet Milk™",
+          image: "https://i.imgur.com/8Z0gUzv.jpeg",
+          tagline: "Milk your commode. Now with 2% calcium."
+        },
+        {
+          title: "Download More RAM™",
+          image: "https://i.imgur.com/3oHqX9u.jpeg",
+          tagline: "16GB in 1 click. Probably."
+        },
+        {
+          title: "Adobe Sponge CC",
+          image: "https://i.imgur.com/LIcd8lX.jpeg",
+          tagline: "Absorbs your creativity."
+        },
+        {
+          title: "Windows XP Phone™",
+          image: "https://i.imgur.com/DPXjKWB.jpeg",
+          tagline: "Tap Start to call."
+        }
+      ];
+
+      function createPopup(content, x, y) {
+        const popup = document.createElement('div');
+        popup.classList.add('popup');
+        popup.style.left = `${x}px`;
+        popup.style.top = `${y}px`;
+        popup.innerHTML = `
+          <strong>${content.title}</strong><br>
+          <img src="${content.image}" width="100%"><br>
+          <em>${content.tagline}</em><br><br>
+          <button onclick=\"alert('Order Failed: Insufficient RAM')\">Buy Now</button>
+        `;
+        document.body.appendChild(popup);
+      }
+
+      setInterval(() => {
+        const product = trollProducts[Math.floor(Math.random() * trollProducts.length)];
+        createPopup(product, Math.random() * window.innerWidth - 300, Math.random() * window.innerHeight - 200);
+      }, 1000);
+
+      // Clippy Game
+      let clippyScore = 0;
+      function spawnClippy() {
+        const clippy = document.createElement('div');
+        clippy.classList.add('clippy');
+        clippy.style.left = `${Math.random() * (window.innerWidth - 100)}px`;
+        clippy.style.top = `${Math.random() * (window.innerHeight - 100)}px`;
+        clippy.title = "It looks like you're trying to click me!";
+        clippy.onclick = () => {
+          clippyScore++;
+          document.getElementById('score').innerText = `Clippy Score: ${clippyScore}`;
+          clippy.remove();
+          if (clippyScore % 10 === 0) alert("Achievement Unlocked: Office Space Champion!");
+        };
+        document.body.appendChild(clippy);
+        setTimeout(() => {
+          if (document.body.contains(clippy)) clippy.remove();
+        }, 2000);
+      }
 
       setTimeout(() => {
-        if (document.body.contains(clippy)) clippy.remove();
-      }, 2000);
-    }
+        setInterval(spawnClippy, 800);
+      }, 10000);
 
-    setTimeout(() => {
-      setInterval(spawnClippy, 800);
-    }, 10000); // Delay Clippy swarm by 10s
+      // Escape protection
+      window.onbeforeunload = function() {
+        return "Wait! Your free Toilet Milk download is almost complete!";
+      };
+
+      document.body.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape') {
+          alert("Escape is futile.");
+        }
+      });
+    }
   </script>
 </body>
 </html>
