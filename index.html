@@ -1,9 +1,9 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>404Forever</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>404Forever – Infinite Chaos</title>
   <style>
     html, body {
       margin: 0;
@@ -11,152 +11,140 @@
       overflow: hidden;
       background: black;
       color: lime;
-      font-family: "Comic Sans MS", cursive, sans-serif;
-      text-align: center;
+      font-family: 'Comic Sans MS', cursive;
       height: 100vh;
-      transition: background 0.2s;
     }
-    h1 {
-      margin-top: 10vh;
-      font-size: 4rem;
-      animation: glitch 1s infinite;
+    #app {
+      position: relative;
+      width: 100%;
+      height: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-direction: column;
+      z-index: 1;
+    }
+    .trap {
+      display: none;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      height: 100%;
+      width: 100%;
+      position: absolute;
+      top: 0;
+      left: 0;
+      z-index: 2;
+      background: rgba(0, 0, 0, 0.95);
+    }
+    .trap.active {
+      display: flex;
     }
     button {
       padding: 20px;
       font-size: 1.5rem;
       cursor: pointer;
-      position: absolute;
-      transition: top 0.2s, left 0.2s;
-    }
-    #progressContainer {
-      width: 80%;
-      height: 30px;
-      border: 2px solid lime;
-      margin: 40px auto;
-      background: #111;
-    }
-    #progressBar {
-      height: 100%;
-      background: lime;
-      width: 0%;
-    }
-    @keyframes glitch {
-      0% { text-shadow: 2px 2px red; }
-      50% { text-shadow: -2px -2px blue; }
-      100% { text-shadow: 2px 2px red; }
+      margin: 20px;
     }
     .popup {
       position: absolute;
-      background: rgba(0,0,0,0.8);
-      color: #fff;
-      padding: 15px;
-      border: 2px solid red;
-      z-index: 9999;
+      background: red;
+      color: white;
+      padding: 10px;
       font-size: 1rem;
+      z-index: 9999;
+      animation: fadeout 5s forwards;
+    }
+    @keyframes fadeout {
+      0% { opacity: 1; }
+      100% { opacity: 0; }
     }
   </style>
 </head>
 <body>
-  <h1>404Forever</h1>
-  <div id="progressContainer">
-    <div id="progressBar"></div>
+  <div id="app">
+    <h1>Welcome to 404Forever</h1>
+    <button id="startButton">Enter the Chaos</button>
   </div>
-  <button id="chaosButton">Click me... or don’t.</button>
+
+  <!-- Trap Rooms -->
+  <div class="trap" id="trap-captcha">
+    <h2>Prove you’re human. Again.</h2>
+    <button onclick="spawnPopup('Wrong answer.')">I am not a robot</button>
+    <button onclick="spawnPopup('Still wrong.')">Definitely human</button>
+    <button onclick="spawnPopup('Nope.')">Trust me</button>
+  </div>
+
+  <div class="trap" id="trap-invert">
+    <h2>Everything is upside down now.</h2>
+    <p>Good luck reading this.</p>
+  </div>
+
+  <div class="trap" id="trap-glitch">
+    <h2>GL1TCH M0D3 ACT1V4TED</h2>
+    <p>Reality is broken.</p>
+  </div>
 
   <script>
-    const button = document.getElementById('chaosButton');
-    const progressBar = document.getElementById('progressBar');
+    const app = document.getElementById('app');
+    const traps = [
+      document.getElementById('trap-captcha'),
+      document.getElementById('trap-invert'),
+      document.getElementById('trap-glitch')
+    ];
 
-    // Make button run from the cursor
-    document.addEventListener('mousemove', (e) => {
-      const rect = button.getBoundingClientRect();
-      const dx = e.clientX - (rect.left + rect.width / 2);
-      const dy = e.clientY - (rect.top + rect.height / 2);
-      const distance = Math.sqrt(dx * dx + dy * dy);
-      if (distance < 150) {
-        const offsetX = (Math.random() - 0.5) * 500;
-        const offsetY = (Math.random() - 0.5) * 500;
-        button.style.top = `${Math.max(0, Math.min(window.innerHeight - 50, e.clientY + offsetY))}px`;
-        button.style.left = `${Math.max(0, Math.min(window.innerWidth - 200, e.clientX + offsetX))}px`;
-      }
-    });
+    document.getElementById('startButton').onclick = () => {
+      app.style.display = 'none';
+      startChaos();
+    };
 
-    // Fake loading bar that never finishes
-    let progress = 0;
-    setInterval(() => {
-      if (progress < 99.9) {
-        progress += Math.random() * 0.3;
-        progressBar.style.width = `${progress}%`;
-      } else {
-        progress = 0;
-        progressBar.style.width = `0%`;
-      }
-    }, 200);
-
-    // Button chaos
-    button.addEventListener('click', () => {
-      alert("WRONG BUTTON. Now you’ve activated trap mode.");
-      document.body.style.background = 'red';
-      button.innerText = "Oops";
-      new Audio('https://www.myinstants.com/media/sounds/windows-error-sound.mp3').play();
-      setTimeout(() => {
-        const goat = new Audio('https://www.myinstants.com/media/sounds/goat.mp3');
-        goat.play();
-        spawnPopup("WHY ARE YOU STILL HERE?");
-      }, 1500);
-    });
-
-    // Cursor flip randomly
-    setInterval(() => {
-      const flip = Math.random() < 0.5 ? 'none' : 'scaleX(-1)';
-      document.body.style.transform = flip;
-    }, 2000);
-
-    // Background chaos
-    setInterval(() => {
-      document.body.style.backgroundColor = `hsl(${Math.random() * 360}, 100%, 10%)`;
-    }, 300);
-
-    // Rickroll easter egg
-    setTimeout(() => {
-      const rick = new Audio('https://www.myinstants.com/media/sounds/rick-roll.mp3');
-      rick.play();
-      spawnPopup("🎵 Never gonna give you up...");
-    }, 8000);
-
-    // Pop-up generator
-    function spawnPopup(text) {
-      const popup = document.createElement('div');
-      popup.classList.add('popup');
-      popup.innerText = text;
-      popup.style.top = Math.random() * (window.innerHeight - 100) + 'px';
-      popup.style.left = Math.random() * (window.innerWidth - 200) + 'px';
-      document.body.appendChild(popup);
-      setTimeout(() => popup.remove(), 5000);
+    function startChaos() {
+      chaosLoop();
+      setInterval(() => {
+        const trap = traps[Math.floor(Math.random() * traps.length)];
+        traps.forEach(t => t.classList.remove('active'));
+        trap.classList.add('active');
+        setTimeout(() => trap.classList.remove('active'), 6000);
+      }, 10000);
     }
 
-    // Infinite window spawner (browser dependent)
-    setInterval(() => {
-      if (Math.random() < 0.02) {
-        window.open('https://theuselessweb.com/', '_blank');
-      }
-    }, 4000);
-
-    // Uncloseable alert loop after time
-    setTimeout(() => {
-      let count = 0;
-      const interval = setInterval(() => {
-        alert("System Message: " + [
-          "Error 0x0000DEAD",
-          "Mind not found.",
-          "The cake is a lie.",
-          "Existence compromised.",
-          "Clicking was a mistake."
-        ][Math.floor(Math.random() * 5)]);
-        count++;
-        if (count > 5) clearInterval(interval);
+    function chaosLoop() {
+      setInterval(() => {
+        const event = Math.floor(Math.random() * 6);
+        switch (event) {
+          case 0:
+            document.body.style.background = `hsl(${Math.random()*360}, 100%, 10%)`;
+            break;
+          case 1:
+            spawnPopup("Error 0xD3AD: You've been compromised.");
+            break;
+          case 2:
+            document.body.style.transform = 'scaleX(-1)';
+            setTimeout(() => document.body.style.transform = 'none', 3000);
+            break;
+          case 3:
+            const sound = new Audio('https://www.myinstants.com/media/sounds/metal-pipe-clang.mp3');
+            sound.play();
+            break;
+          case 4:
+            window.open('https://theuselessweb.com/', '_blank');
+            break;
+          case 5:
+            spawnPopup("You shouldn't be here.");
+            break;
+        }
       }, 4000);
-    }, 12000);
+    }
+
+    function spawnPopup(text) {
+      const div = document.createElement('div');
+      div.className = 'popup';
+      div.innerText = text;
+      div.style.top = Math.random() * (window.innerHeight - 50) + 'px';
+      div.style.left = Math.random() * (window.innerWidth - 200) + 'px';
+      document.body.appendChild(div);
+      setTimeout(() => div.remove(), 5000);
+    }
   </script>
 </body>
 </html>
