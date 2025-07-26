@@ -1,304 +1,118 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-  <title>WELCOME TO CYBERHELL</title>
+  <meta charset="UTF-8">
+  <title>Shakey Worm of Doom</title>
   <style>
     html, body {
       margin: 0;
       padding: 0;
-      height: 100%;
-      background: url('https://www.animatedimages.org/data/media/202/animated-background-image-0009.gif') repeat;
-      font-family: "Comic Sans MS", cursive, sans-serif;
-      overflow: hidden;
-    }
-    header {
-      background: linear-gradient(to right, yellow, red, magenta);
-      color: black;
-      font-size: 36px;
-      text-align: center;
-      padding: 10px;
-      animation: pulse 1s infinite;
-    }
-    @keyframes pulse {
-      0% { transform: scale(1); color: red; }
-      50% { transform: scale(1.2); color: yellow; }
-      100% { transform: scale(1); color: magenta; }
-    }
-    marquee {
       background: black;
-      color: lime;
-      font-weight: bold;
-      font-size: 20px;
-      padding: 5px;
+      overflow: hidden;
+      font-family: Comic Sans MS, cursive;
     }
-    #container {
-      display: flex;
-      height: calc(100% - 100px);
+    canvas {
+      display: block;
     }
-    #sidebar {
-      width: 200px;
-      background: url('https://www.animatedimages.org/data/media/51/animated-background-image-0142.gif');
-      color: white;
+    #warning {
+      position: absolute;
+      top: 20px;
+      left: 20px;
+      background: yellow;
+      color: red;
+      font-size: 24px;
       padding: 10px;
-      overflow-y: auto;
-    }
-    .nav-button {
-      background: lime;
-      border: 3px double red;
-      margin: 10px 0;
-      padding: 10px;
-      text-align: center;
+      border: 4px solid red;
       animation: blink 1s infinite;
-      cursor: crosshair;
+      z-index: 10;
     }
     @keyframes blink {
       0%, 100% { opacity: 1; }
       50% { opacity: 0; }
     }
-    #main {
-      flex-grow: 1;
-      padding: 20px;
-      color: lime;
-      position: relative;
-      overflow: hidden;
-    }
-    .fake-ad {
-      background: yellow;
-      border: 3px dotted red;
-      padding: 10px;
-      margin: 10px;
-      animation: shake 0.5s infinite;
-    }
-    @keyframes shake {
-      0% { transform: translate(1px, 1px); }
-      25% { transform: translate(-1px, 2px); }
-      50% { transform: translate(-2px, -1px); }
-      75% { transform: translate(1px, -2px); }
-      100% { transform: translate(2px, 1px); }
-    }
-    .moving-button {
-      position: absolute;
-      padding: 10px;
-      background: lime;
-      border: 2px solid black;
-      font-weight: bold;
-      cursor: pointer;
-    }
-    .mouse-trail {
-      position: absolute;
-      width: 10px;
-      height: 10px;
-      background: red;
-      border-radius: 50%;
-      pointer-events: none;
-      z-index: 9999;
-    }
-    .popup {
-      position: absolute;
-      background: hotpink;
-      border: 4px ridge cyan;
-      padding: 10px;
-      box-shadow: 0 0 10px magenta;
-      z-index: 999;
-    }
-    #chatbot-box {
-      position: fixed;
-      bottom: 10px;
-      right: 10px;
-      background: black;
-      color: lime;
-      border: 2px groove magenta;
-      padding: 10px;
-      width: 200px;
-      height: 150px;
-      overflow-y: auto;
-      font-size: 12px;
-    }
-    #chat-input {
-      width: 100%;
-      border: none;
-      padding: 5px;
-      font-size: 12px;
-      background: #111;
-      color: lime;
-    }
-    .icon {
-      position: absolute;
-      width: 64px;
-      height: 64px;
-      background: url('https://www.iconarchive.com/download/i107925/google/noto-emoji-objects/62831-floppy-disk.ico') no-repeat center/contain;
-      cursor: move;
-    }
-    #bsod {
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100vw;
-      height: 100vh;
-      background: #0000aa;
-      color: white;
-      font-family: monospace;
-      font-size: 18px;
-      padding: 20px;
-      display: none;
-      z-index: 9999;
-    }
   </style>
 </head>
 <body>
-  <header>🌐 WELCOME TO CYBERSPACE, LOSER 🌐</header>
-  <marquee behavior="alternate">🔥 HOT DEALS 🔥 - 💾 BEST VIEWED IN NETSCAPE - 🎉 UNDER CONSTRUCTION 🎉</marquee>
-
-  <div id="container">
-    <div id="sidebar">
-      <div class="nav-button" onclick="alert('This button does nothing. Deal with it.')">🏠 HOME</div>
-      <div class="nav-button" onclick="triggerBSOD()">💀 CRASH MODE</div>
-      <div class="nav-button" onclick="spawnIcon()">🖼 SPAWN ICON</div>
-    </div>
-
-    <div id="main">
-      <h1>WELCOME BACK, HACKER!</h1>
-      <div class="fake-ad">🤑 Click here for a FREE copy of WinZip 95! 🤑</div>
-      <div class="fake-ad">💾 Download 800 free cursors (no virus, promise)</div>
-
-      <button onclick="openPopup()">Close Ad</button>
-      <button id="runawayBtn" class="moving-button" style="top:300px; left:300px;">Click Me!</button>
-
-      <div id="chatbot-box">
-        <div id="chat-log">🤖 I'm Clippy’s weird cousin. Ask me anything.<br></div>
-        <input id="chat-input" placeholder="Type here..." onkeydown="handleChat(event)">
-      </div>
-    </div>
-  </div>
-
-  <div id="bsod">
-    <pre>
-    *** STOP: 0x000000D1 (0x00000002, 0x00000000, 0xF84D1234)
-    DRIVER_IRQL_NOT_LESS_OR_EQUAL
-
-    A problem has been detected and Windows has been shut down to prevent damage
-    to your computer.
-
-    Press CTRL+ALT+DEL to restart your computer. If this screen appears again,
-    follow these steps:
-    Suffer.
-    </pre>
-  </div>
-
-  <audio id="clickSound">
-    <source src="https://www.soundjay.com/button/beep-07.wav" type="audio/wav">
-  </audio>
-  <audio autoplay loop>
-    <source src="https://www.mfiles.co.uk/mp3-downloads/toccata-dorian-bwv538.mp3" type="audio/mpeg">
-  </audio>
+  <div id="warning">FLASH WARNING! SHAKE TO UNLEASH THE FRENZY!</div>
+  <canvas id="canvas"></canvas>
+  <audio id="blast" src="https://www.soundjay.com/misc/sounds/bell-ringing-05.mp3"></audio>
 
   <script>
-    // Mouse trail
-    document.addEventListener("mousemove", function(e) {
-      let dot = document.createElement("div");
-      dot.className = "mouse-trail";
-      dot.style.left = e.pageX + 'px';
-      dot.style.top = e.pageY + 'px';
-      document.body.appendChild(dot);
-      setTimeout(() => dot.remove(), 500);
+    const canvas = document.getElementById('canvas');
+    const ctx = canvas.getContext('2d');
+    canvas.width = window.innerWidth;
+    canvas.height = window.innerHeight;
+
+    const segments = [];
+    const segCount = 25;
+    let mouseX = canvas.width/2;
+    let mouseY = canvas.height/2;
+    let shakeThreshold = 30;
+    let lastPos = { x: mouseX, y: mouseY };
+    let blastTriggered = false;
+    let colorHue = 0;
+    const audio = document.getElementById('blast');
+
+    for (let i = 0; i < segCount; i++) {
+      segments.push({ x: mouseX, y: mouseY });
+    }
+
+    function lerp(a, b, t) {
+      return a + (b - a) * t;
+    }
+
+    function drawWorm() {
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      ctx.beginPath();
+      ctx.moveTo(segments[0].x, segments[0].y);
+
+      for (let i = 1; i < segCount; i++) {
+        segments[i].x = lerp(segments[i].x, segments[i-1].x, 0.4);
+        segments[i].y = lerp(segments[i].y, segments[i-1].y, 0.4);
+        ctx.lineTo(segments[i].x, segments[i].y);
+      }
+
+      ctx.strokeStyle = `hsl(${colorHue}, 100%, 50%)`;
+      ctx.lineWidth = 18;
+      ctx.lineCap = 'round';
+      ctx.stroke();
+
+      if (blastTriggered) {
+        colorHue += 30;
+        ctx.fillStyle = `hsla(${Math.random()*360}, 100%, 50%, 0.4)`;
+        ctx.fillRect(0, 0, canvas.width, canvas.height);
+      }
+    }
+
+    function update() {
+      const dx = mouseX - lastPos.x;
+      const dy = mouseY - lastPos.y;
+      const dist = Math.sqrt(dx*dx + dy*dy);
+
+      if (dist > shakeThreshold && !blastTriggered) {
+        blastTriggered = true;
+        audio.play();
+      }
+
+      segments[0].x = mouseX;
+      segments[0].y = mouseY;
+      lastPos = { x: mouseX, y: mouseY };
+
+      drawWorm();
+      requestAnimationFrame(update);
+    }
+
+    document.addEventListener('mousemove', e => {
+      mouseX = e.clientX;
+      mouseY = e.clientY;
     });
 
-    // Click mocking
-    let clickCount = 0;
-    document.addEventListener("click", () => {
-      clickCount++;
-      document.getElementById("clickSound").play();
-      if (clickCount % 5 === 0) {
-        alert("Wow. " + clickCount + " clicks. You're really committed to this...");
-      }
+    window.addEventListener('resize', () => {
+      canvas.width = window.innerWidth;
+      canvas.height = window.innerHeight;
     });
 
-    // Pop-up madness
-    function openPopup() {
-      let popup = document.createElement("div");
-      popup.className = "popup";
-      popup.innerHTML = `<b>ERROR:</b> You tried to close the ad!<br><button onclick=\"this.parentElement.remove()\">Try Again</button>`;
-      popup.style.top = Math.random() * window.innerHeight + 'px';
-      popup.style.left = Math.random() * window.innerWidth + 'px';
-      document.body.appendChild(popup);
-    }
-
-    // Runaway button
-    const runBtn = document.getElementById("runawayBtn");
-    runBtn.addEventListener("mouseover", () => {
-      runBtn.style.top = Math.random() * (window.innerHeight - 50) + 'px';
-      runBtn.style.left = Math.random() * (window.innerWidth - 100) + 'px';
-    });
-
-    // Chatbot
-    function handleChat(e) {
-      if (e.key === "Enter") {
-        let input = e.target.value;
-        let response = getBotResponse(input);
-        let log = document.getElementById("chat-log");
-        log.innerHTML += `<br>🧍 ${input}<br>🤖 ${response}`;
-        e.target.value = "";
-        log.scrollTop = log.scrollHeight;
-      }
-    }
-
-    function getBotResponse(input) {
-      const insults = [
-        "Nice try.",
-        "You really typed that?", 
-        "404: Intelligence not found.",
-        "Ask a better question.",
-        "Go touch grass."
-      ];
-      return insults[Math.floor(Math.random() * insults.length)];
-    }
-
-    // Fake desktop icon spawner
-    function spawnIcon() {
-      let icon = document.createElement("div");
-      icon.className = "icon";
-      icon.style.top = Math.random() * (window.innerHeight - 64) + 'px';
-      icon.style.left = Math.random() * (window.innerWidth - 64) + 'px';
-      document.body.appendChild(icon);
-      dragElement(icon);
-    }
-
-    // Drag handler
-    function dragElement(elmnt) {
-      let pos1 = 0, pos2 = 0, pos3 = 0, pos4 = 0;
-      elmnt.onmousedown = dragMouseDown;
-
-      function dragMouseDown(e) {
-        e.preventDefault();
-        pos3 = e.clientX;
-        pos4 = e.clientY;
-        document.onmouseup = closeDragElement;
-        document.onmousemove = elementDrag;
-      }
-
-      function elementDrag(e) {
-        pos1 = pos3 - e.clientX;
-        pos2 = pos4 - e.clientY;
-        pos3 = e.clientX;
-        pos4 = e.clientY;
-        elmnt.style.top = (elmnt.offsetTop - pos2) + "px";
-        elmnt.style.left = (elmnt.offsetLeft - pos1) + "px";
-      }
-
-      function closeDragElement() {
-        document.onmouseup = null;
-        document.onmousemove = null;
-      }
-    }
-
-    // Fake BSOD
-    function triggerBSOD() {
-      document.getElementById("bsod").style.display = "block";
-    }
-
-    window.onbeforeunload = function() {
-      return "You're just going to leave like that? We were just getting started!";
-    };
+    update();
   </script>
 </body>
 </html>
