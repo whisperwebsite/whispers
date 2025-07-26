@@ -1,38 +1,66 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>Welcome to THE Site</title>
+  <title>WELCOME TO CYBERHELL</title>
   <style>
-    body {
-      background-image: url('https://www.transparenttextures.com/patterns/black-felt.png');
-      color: lime;
+    html, body {
+      margin: 0;
+      padding: 0;
+      height: 100%;
+      background: url('https://www.animatedimages.org/data/media/202/animated-background-image-0009.gif') repeat;
       font-family: "Comic Sans MS", cursive, sans-serif;
-      animation: bgFlash 2s infinite;
-    }
-    @keyframes bgFlash {
-      0% { background-color: black; }
-      50% { background-color: darkmagenta; }
-      100% { background-color: black; }
-    }
-    .marquee {
-      width: 100%;
       overflow: hidden;
-      white-space: nowrap;
-      box-sizing: border-box;
-      border: 3px dashed yellow;
-      font-size: 20px;
     }
-    .popup {
-      position: absolute;
-      top: 100px;
-      left: 100px;
-      width: 200px;
-      height: 100px;
-      background: hotpink;
-      border: 4px ridge cyan;
-      z-index: 1000;
+    header {
+      background: linear-gradient(to right, yellow, red, magenta);
+      color: black;
+      font-size: 36px;
+      text-align: center;
       padding: 10px;
-      box-shadow: 0 0 10px magenta;
+      animation: pulse 1s infinite;
+    }
+    @keyframes pulse {
+      0% { transform: scale(1); color: red; }
+      50% { transform: scale(1.2); color: yellow; }
+      100% { transform: scale(1); color: magenta; }
+    }
+    marquee {
+      background: black;
+      color: lime;
+      font-weight: bold;
+      font-size: 20px;
+      padding: 5px;
+    }
+    #container {
+      display: flex;
+      height: calc(100% - 100px);
+    }
+    #sidebar {
+      width: 200px;
+      background: url('https://www.animatedimages.org/data/media/51/animated-background-image-0142.gif');
+      color: white;
+      padding: 10px;
+      overflow-y: auto;
+    }
+    .nav-button {
+      background: lime;
+      border: 3px double red;
+      margin: 10px 0;
+      padding: 10px;
+      text-align: center;
+      animation: blink 1s infinite;
+      cursor: crosshair;
+    }
+    @keyframes blink {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0; }
+    }
+    #main {
+      flex-grow: 1;
+      padding: 20px;
+      color: lime;
+      position: relative;
+      overflow: hidden;
     }
     .fake-ad {
       background: yellow;
@@ -48,6 +76,14 @@
       75% { transform: translate(1px, -2px); }
       100% { transform: translate(2px, 1px); }
     }
+    .moving-button {
+      position: absolute;
+      padding: 10px;
+      background: lime;
+      border: 2px solid black;
+      font-weight: bold;
+      cursor: pointer;
+    }
     .mouse-trail {
       position: absolute;
       width: 10px;
@@ -57,14 +93,13 @@
       pointer-events: none;
       z-index: 9999;
     }
-    .moving-button {
+    .popup {
       position: absolute;
+      background: hotpink;
+      border: 4px ridge cyan;
       padding: 10px;
-      background: lime;
-      border: 2px solid black;
-      font-weight: bold;
-      cursor: pointer;
-      transition: 0.2s ease-in-out;
+      box-shadow: 0 0 10px magenta;
+      z-index: 999;
     }
     #chatbot-box {
       position: fixed;
@@ -90,26 +125,36 @@
   </style>
 </head>
 <body>
-  <h1 style="text-align:center; font-size:48px;">WELCOME TO THE INTERNET</h1>
-  <div class="marquee">
-    <marquee>🔥 Click HERE to WIN A FREE MODEM 🔥 &nbsp;&nbsp;&nbsp;&nbsp; 💾 SIGN MY GUESTBOOK 💾 &nbsp;&nbsp;&nbsp;&nbsp; 🚨 VIRUS ALERT! 🚨</marquee>
-  </div>
+  <header>🌐 WELCOME TO CYBERSPACE, LOSER 🌐</header>
+  <marquee behavior="alternate">🔥 HOT DEALS 🔥 - 💾 BEST VIEWED IN NETSCAPE - 🎉 UNDER CONSTRUCTION 🎉</marquee>
 
-  <div class="fake-ad">🔞 Click here for FREE INTERNET FOR LIFE! 🔞</div>
-  <div class="fake-ad">👀 Doctors HATE her! See how she defeated the Internet! 👀</div>
+  <div id="container">
+    <div id="sidebar">
+      <div class="nav-button" onclick="alert('This button does nothing. Deal with it.')">🏠 HOME</div>
+      <div class="nav-button" onclick="window.open('https://theuselessweb.com/')">🌀 USELESS WEB</div>
+      <div class="nav-button" onclick="window.open('https://pointerpointer.com/')">👉 POINTER POINTER</div>
+      <div class="nav-button" onclick="window.open('https://heeeeeeeey.com/')">🎵 HEEEEEEEY</div>
+    </div>
 
-  <button onclick="openPopup()">Close Ad</button>
-  <button id="runawayBtn" class="moving-button" style="top:300px; left:300px;">Click Me!</button>
+    <div id="main">
+      <h1>WELCOME BACK, HACKER!</h1>
+      <div class="fake-ad">🤑 Click here for a FREE copy of WinZip 95! 🤑</div>
+      <div class="fake-ad">💾 Download 800 free cursors (no virus, promise)</div>
 
-  <div id="chatbot-box">
-    <div id="chat-log">🤖 I'm Clippy’s weird cousin. Ask me anything, meatbag.<br></div>
-    <input id="chat-input" placeholder="Type here..." onkeydown="handleChat(event)">
+      <button onclick="openPopup()">Close Ad</button>
+      <button id="runawayBtn" class="moving-button" style="top:300px; left:300px;">Click Me!</button>
+
+      <div id="chatbot-box">
+        <div id="chat-log">🤖 I'm Clippy’s weird cousin. Ask me anything.<br></div>
+        <input id="chat-input" placeholder="Type here..." onkeydown="handleChat(event)">
+      </div>
+    </div>
   </div>
 
   <audio id="clickSound">
     <source src="https://www.soundjay.com/button/beep-07.wav" type="audio/wav">
   </audio>
-  <audio id="bgMusic" autoplay loop>
+  <audio autoplay loop>
     <source src="https://www.mfiles.co.uk/mp3-downloads/toccata-dorian-bwv538.mp3" type="audio/mpeg">
   </audio>
 
@@ -138,10 +183,7 @@
     function openPopup() {
       let popup = document.createElement("div");
       popup.className = "popup";
-      popup.innerHTML = `
-        <b>ERROR:</b> You tried to close the ad!<br>
-        <button onclick=\"this.parentElement.remove()\">Try Again</button>
-      `;
+      popup.innerHTML = `<b>ERROR:</b> You tried to close the ad!<br><button onclick=\"this.parentElement.remove()\">Try Again</button>`;
       popup.style.top = Math.random() * window.innerHeight + 'px';
       popup.style.left = Math.random() * window.innerWidth + 'px';
       document.body.appendChild(popup);
@@ -177,7 +219,7 @@
       return insults[Math.floor(Math.random() * insults.length)];
     }
 
-    // Rage quit detection
+    // Rage quit protection
     window.onbeforeunload = function() {
       return "You're just going to leave like that? We were just getting started!";
     };
