@@ -2,191 +2,190 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>WELCOME TO THE FUTURE OF WEB DESIGN</title>
-  <link rel="icon" href="https://upload.wikimedia.org/wikipedia/commons/3/3c/Nicolas_Cage_JPEG.jpg">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Phantom Strike Remastered - Free Download</title>
+  <link rel="icon" href="https://upload.wikimedia.org/wikipedia/en/5/5f/Windows_XP_logo.png">
   <style>
     body {
-      background: url('https://www.toptal.com/designers/subtlepatterns/patterns/dark-mosaic.png'), linear-gradient(90deg, red, orange, yellow, green, blue, indigo, violet);
-      animation: bgFlash 1s infinite alternate;
-      color: lime;
-      font-family: 'Comic Sans MS', 'Papyrus', 'Wingdings', 'Courier New', 'Impact', 'Times New Roman', cursive, fantasy, monospace, serif, sans-serif;
-      cursor: url('https://cur.cursors-4u.net/cursors/cur-13/cur1147.cur'), auto;
+      margin: 0;
+      font-family: Arial, sans-serif;
+      background: #f5f5f5;
+      color: #333;
     }
-    @keyframes bgFlash {
-      0% { filter: hue-rotate(0deg); }
-      100% { filter: hue-rotate(360deg); }
+    .container {
+      max-width: 900px;
+      margin: auto;
+      padding: 2rem;
+      background: white;
+      box-shadow: 0 0 15px rgba(0,0,0,0.1);
     }
-    marquee, blink {
-      animation: blinker 1s linear infinite;
-    }
-    @keyframes blinker {
-      50% { opacity: 0; }
-    }
-    h1, h2, h3, h4 {
-      color: hotpink;
-      font-size: 3em;
-      text-transform: uppercase;
-      transform: rotate(-2deg);
-    }
-    .marquee-container {
-      display: flex;
-      justify-content: space-between;
-    }
-    .product {
-      border: 5px dashed magenta;
-      padding: 1em;
-      background: cyan;
-      font-size: 1.5em;
-      margin: 1em;
-    }
-    #loading {
-      position: fixed;
-      top: 0; left: 0;
-      width: 100vw; height: 100vh;
-      background: black;
-      color: white;
-      font-size: 5em;
-      z-index: 9999;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-    }
-    #guestbook-message {
-      color: red;
+    .title {
+      font-size: 2rem;
       font-weight: bold;
-      font-size: 2em;
+    }
+    .btn {
+      padding: 1rem 2rem;
+      font-size: 1.2rem;
+      background-color: #007bff;
+      color: white;
+      border: none;
+      cursor: pointer;
+      border-radius: 5px;
+      margin-top: 1rem;
+    }
+    .btn:disabled {
+      background-color: #ccc;
+    }
+    .terms {
+      margin-top: 1rem;
+    }
+    .hidden {
+      display: none;
     }
   </style>
 </head>
-<body onload="neverLoad()">
-  <div id="loading">Loading... 99%</div>
+<body>
+  <div class="container">
+    <h1 class="title">Download Phantom Strike Remastered</h1>
+    <p>Experience the remastered tactical shooter everyone's talking about. Free download for a limited time.</p>
+    <ul>
+      <li>Ultra HD graphics</li>
+      <li>Multiplayer chaos</li>
+      <li>Zero microtransactions</li>
+    </ul>
 
-  <marquee direction="left"><h1>WELCOME TO THE FUTURE OF WEB DESIGN</h1></marquee>
-  <marquee direction="right"><h2>NOW WITH MORE FLASHING</h2></marquee>
-  <blink><h2>PREPARE YOURSELF</h2></blink>
+    <div class="terms">
+      <input type="checkbox" id="acceptTerms"> <label for="acceptTerms">I accept the <a href="#">terms and conditions</a>.</label>
+    </div>
 
-  <div class="marquee-container">
-    <marquee behavior="alternate" direction="up" scrollamount="5">🔥🔥🔥🔥🔥</marquee>
-    <marquee behavior="alternate" direction="down" scrollamount="8">💀💀💀💀💀</marquee>
-  </div>
-
-  <section>
-    <h2>PRODUCTS</h2>
-    <div class="product">Toilet Milk™ – Drink like no one’s flushing</div>
-    <div class="product">USB Garlic – Vampire-safe tech</div>
-    <div class="product">Download More RAM – Now with *less* RAM</div>
-  </section>
-
-  <section>
-    <h2>ABOUT US</h2>
-    <p>We were born from the Source Code beneath the Soil. Only those who CTRL+ALT+BLEED shall transcend. Do not ask why. We do not answer. We are beyond the firewall.</p>
-    <p>...And then there was The Ping. It echoed across the Silicon Void. We obey.</p>
-    <p>The mouse clicks. The page loads. The truth becomes visible. You are one of us now.</p>
-    <p>Scroll forever. There is no bottom. There is no end. 🌀🌀🌀🌀🌀🌀🌀🌀🌀🌀</p>
-    <p>Lorem ipsum dolor sit amet, CTRL+ALT+BLEED into the Kernel. Our network is the void. ∞ We do not stop. We only boot deeper. Lorem ipsum dolor sit amet, quantum subnet convergence overflow rebirth. ∞ Keep scrolling. ∞</p>
-  </section>
-
-  <section>
-    <h2>TESTIMONIALS</h2>
-    <p>“My toaster started crying!” – Dave, probably</p>
-    <p>“I sold my soul and now I can moonwalk.” – BloodUser_88</p>
-  </section>
-
-  <section>
-    <h2>GUESTBOOK</h2>
-    <div id="guestbook-message">You were here yesterday.</div>
-  </section>
-
-  <section>
-    <h2>CONTACT US</h2>
-    <form onsubmit="sendToToaster(event)">
-      <label>Name: <input type="text" name="name"></label><br>
-      <label>Email: <input type="email" name="email"></label><br>
-      <label>Message:<br><textarea name="message"></textarea></label><br>
-      <input type="submit" value="Submit">
-    </form>
-  </section>
-
-  <section>
-    <h2>TERMS & CONDITIONS</h2>
-    <pre style="font-family: 'Comic Sans MS'; font-size: 1.2em; background: yellow; padding: 1em; border: 2px dashed red;">
-CUT OUT LETTERS FROM VARIOUS MAGAZINES STYLE...
-
-YOU AGREE TO EVERYTHING.
-YOU HAVE NO RIGHTS.
-YOU MUST DANCE IF THE WEBSITE COMMANDS IT.
-WE CAN SELL YOUR THOUGHTS TO A MICROWAVE.
-BY CLICKING SUBMIT, YOU AGREE TO SUFFER.
-    </pre>
-  </section>
-
-  <button onclick="launchExplosion()">DO NOT CLICK THIS OR YOU’LL REGRET IT</button>
-  <button onclick="open404()">Sign Up</button>
-  <button onclick="openTabs()">Cancel</button>
-
-  <div style="opacity: 0.01; position: absolute; top: 0; left: 0; width: 100px; height: 100px;" onclick="secretClick()"></div>
-
-  <div id="livechat">
-    <h2>LIVE CHAT</h2>
-    <p><strong>Bot:</strong> 01010100 01101000 01100101 00100000 01100101 01101110 01100100 00100000 01101001 01110011 00100000 01101110 01100101 01100001 01110010.</p>
-    <p><strong>Bot:</strong> 🤬🙃💾🧠</p>
-    <p><strong>Bot:</strong> oh wow, a human. how retro.</p>
+    <button id="downloadBtn" class="btn" disabled>Download Now</button>
   </div>
 
   <script>
-    function neverLoad() {
-      setTimeout(() => document.getElementById('loading').style.display = 'block', 1);
-    }
+    const checkbox = document.getElementById('acceptTerms');
+    const downloadBtn = document.getElementById('downloadBtn');
 
-    function openTabs() {
-      for (let i = 0; i < 37; i++) {
-        window.open('https://example.com', '_blank');
-      }
-    }
-
-    function open404() {
-      window.location.href = '/404.html';
-    }
-
-    function launchExplosion() {
-      alert('💥 WHY DID YOU DO THAT 💥');
-      document.body.innerHTML += '<h1 style="color: red; font-size: 100px;">YOU HAVE ANGERED THE HTML GODS</h1>';
-    }
-
-    function sendToToaster(event) {
-      event.preventDefault();
-      alert("Your message has been toasted. Expect crumbs.");
-    }
-
-    function secretClick() {
-      alert("You were warned. You clicked again. Now it begins.");
-      document.body.style.background = 'url(https://i.gifer.com/7VE.gif)';
-    }
-
-    // Audio Chaos
-    const screamTriggers = document.querySelectorAll('button');
-    screamTriggers.forEach(btn => {
-      btn.addEventListener('click', () => {
-        new Audio('https://www.soundjay.com/button/sounds/button-10.mp3').play();
-      });
+    checkbox.addEventListener('change', () => {
+      downloadBtn.disabled = !checkbox.checked;
     });
 
-    setInterval(() => {
-      const whisper = new Audio('https://www.soundjay.com/human/sounds/whisper-2.mp3');
-      whisper.play();
-    }, Math.random() * 30000);
-
-    // Popup Chaos
-    setInterval(() => {
-      alert(Math.random() > 0.5 ? "Are you real?" : "Please confirm your nonexistence.");
-    }, 60000);
+    downloadBtn.addEventListener('click', () => {
+      window.location.href = "chaos.html";
+    });
   </script>
+</body>
+</html>
 
+<!-- chaos.html starts below -->
+
+<!-- Save this as chaos.html in same directory -->
+<!-- THE TROLL ZONE -->
+
+<!-- chaos.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Initializing Download...</title>
+  <style>
+    html, body {
+      margin: 0;
+      padding: 0;
+      overflow: hidden;
+      background: url('https://www.toptal.com/designers/subtlepatterns/patterns/pw_maze_white.png');
+      font-family: Comic Sans MS, cursive;
+      cursor: url('https://cur.cursors-4u.net/others/oth-7/oth687.cur'), auto;
+    }
+    .popup {
+      position: absolute;
+      width: 300px;
+      height: 200px;
+      background: white;
+      border: 5px double red;
+      box-shadow: 10px 10px 0px #000;
+      padding: 1rem;
+      z-index: 1000;
+      font-size: 14px;
+    }
+    .banner {
+      position: absolute;
+      width: 100%;
+      text-align: center;
+      top: 20px;
+      font-size: 48px;
+      color: lime;
+      text-shadow: 2px 2px magenta;
+      animation: flicker 0.2s infinite;
+    }
+    @keyframes flicker {
+      0% {opacity: 1;}
+      50% {opacity: 0.6;}
+      100% {opacity: 1;}
+    }
+  </style>
+</head>
+<body>
   <audio autoplay loop>
-    <source src="https://files.freemusicarchive.org/storage-freemusicarchive-org/music/no_curator/Komiku/Komiku_-_Its_time_for_adventure/Komiku_-_09_-_Fluffy_Music.mp3" type="audio/mpeg">
+    <source src="https://www.myinstants.com/media/sounds/windows-xp-error.mp3" type="audio/mpeg">
   </audio>
 
-  <!-- View Source Message -->
-  <!-- you brought this on yourself -->
+  <div class="banner">🔔 DOWNLOAD MORE RAM™ AVAILABLE NOW 🔔</div>
+
+  <script>
+    function createPopup(content, x, y) {
+      const popup = document.createElement('div');
+      popup.classList.add('popup');
+      popup.style.left = `${x}px`;
+      popup.style.top = `${y}px`;
+      popup.innerHTML = `
+        <strong>${content.title}</strong><br>
+        <img src="${content.image}" width="100%"><br>
+        <em>${content.tagline}</em><br><br>
+        <button onclick="alert('Order Failed: Insufficient RAM')">Buy Now</button>
+      `;
+      document.body.appendChild(popup);
+    }
+
+    const trollProducts = [
+      {
+        title: "Toilet Milk™",
+        image: "https://i.imgur.com/hvHD2Qr.png",
+        tagline: "Milk your commode. Now with 2% calcium."
+      },
+      {
+        title: "Download More RAM™",
+        image: "https://i.imgur.com/HcSmX2X.png",
+        tagline: "16GB in 1 click. Probably."
+      },
+      {
+        title: "Adobe Sponge CC",
+        image: "https://i.imgur.com/FAEz6hQ.png",
+        tagline: "Absorbs your creativity."
+      },
+      {
+        title: "Windows XP Phone™",
+        image: "https://i.imgur.com/jqFbtiI.png",
+        tagline: "Tap Start to call."
+      }
+    ];
+
+    let x = 50, y = 50;
+    setInterval(() => {
+      const product = trollProducts[Math.floor(Math.random() * trollProducts.length)];
+      createPopup(product, Math.random() * window.innerWidth - 300, Math.random() * window.innerHeight - 200);
+    }, 1000);
+
+    // Try to block exits
+    window.onbeforeunload = function() {
+      return "Wait! Your free Toilet Milk download is almost complete!";
+    };
+
+    document.body.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape') {
+        alert("Escape is futile.");
+      }
+    });
+  </script>
 </body>
 </html>
