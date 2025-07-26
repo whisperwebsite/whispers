@@ -1,118 +1,99 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-  <meta charset="UTF-8">
-  <title>Shakey Worm of Doom</title>
+  <title>RAGEQUIT 9000</title>
   <style>
-    html, body {
-      margin: 0;
-      padding: 0;
-      background: black;
-      overflow: hidden;
-      font-family: Comic Sans MS, cursive;
+    body {
+      background-image: url('https://i.ibb.co/CvVRzKJ/90s-bg.gif');
+      background-repeat: repeat;
+      color: #00FF00;
+      font-family: "Comic Sans MS", cursive, sans-serif;
+      text-align: center;
+      animation: flicker 1s infinite;
     }
-    canvas {
-      display: block;
+
+    @keyframes flicker {
+      0% { opacity: 1; }
+      50% { opacity: 0.7; }
+      100% { opacity: 1; }
     }
-    #warning {
-      position: absolute;
-      top: 20px;
-      left: 20px;
-      background: yellow;
+
+    h1 {
+      font-size: 5em;
       color: red;
-      font-size: 24px;
-      padding: 10px;
-      border: 4px solid red;
-      animation: blink 1s infinite;
-      z-index: 10;
+      text-shadow: 2px 2px yellow;
+      margin-top: 50px;
+      animation: shake 0.5s infinite;
     }
-    @keyframes blink {
-      0%, 100% { opacity: 1; }
-      50% { opacity: 0; }
+
+    @keyframes shake {
+      0% { transform: translateX(0); }
+      25% { transform: translateX(-5px); }
+      50% { transform: translateX(5px); }
+      75% { transform: translateX(-5px); }
+      100% { transform: translateX(0); }
+    }
+
+    .troll {
+      margin-top: 30px;
+    }
+
+    .troll img {
+      width: 200px;
+      animation: spin 2s linear infinite;
+    }
+
+    @keyframes spin {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
+    }
+
+    .flashing-text {
+      font-size: 2em;
+      color: cyan;
+      animation: flash 0.3s infinite;
+    }
+
+    @keyframes flash {
+      0% { color: magenta; }
+      50% { color: lime; }
+      100% { color: cyan; }
+    }
+
+    .button {
+      margin-top: 40px;
+      padding: 20px;
+      background-color: #FF00FF;
+      border: 5px dotted yellow;
+      font-size: 2em;
+      color: black;
+      cursor: pointer;
+      animation: pulse 1s infinite;
+    }
+
+    @keyframes pulse {
+      0% { transform: scale(1); }
+      50% { transform: scale(1.1); }
+      100% { transform: scale(1); }
     }
   </style>
 </head>
 <body>
-  <div id="warning">FLASH WARNING! SHAKE TO UNLEASH THE FRENZY!</div>
-  <canvas id="canvas"></canvas>
-  <audio id="blast" src="https://www.soundjay.com/misc/sounds/bell-ringing-05.mp3"></audio>
+  <h1>RAGEQUIT 9000</h1>
+  <div class="troll">
+    <img src="https://i.ibb.co/D8fhVdL/trollface.gif" alt="Trollface">
+  </div>
+  <p class="flashing-text">YOU JUST GOT TROLLED! CLICK TO RAGEQUIT!!!</p>
+  <div>
+    <button class="button" onclick="rageQuit()">RAGEQUIT NOW</button>
+  </div>
 
   <script>
-    const canvas = document.getElementById('canvas');
-    const ctx = canvas.getContext('2d');
-    canvas.width = window.innerWidth;
-    canvas.height = window.innerHeight;
-
-    const segments = [];
-    const segCount = 25;
-    let mouseX = canvas.width/2;
-    let mouseY = canvas.height/2;
-    let shakeThreshold = 30;
-    let lastPos = { x: mouseX, y: mouseY };
-    let blastTriggered = false;
-    let colorHue = 0;
-    const audio = document.getElementById('blast');
-
-    for (let i = 0; i < segCount; i++) {
-      segments.push({ x: mouseX, y: mouseY });
+    function rageQuit() {
+      alert("OH NO YOU RAGEQUIT!");
+      window.open('https://www.youtube.com/watch?v=dQw4w9WgXcQ', '_blank');
+      window.close();
     }
-
-    function lerp(a, b, t) {
-      return a + (b - a) * t;
-    }
-
-    function drawWorm() {
-      ctx.clearRect(0, 0, canvas.width, canvas.height);
-      ctx.beginPath();
-      ctx.moveTo(segments[0].x, segments[0].y);
-
-      for (let i = 1; i < segCount; i++) {
-        segments[i].x = lerp(segments[i].x, segments[i-1].x, 0.4);
-        segments[i].y = lerp(segments[i].y, segments[i-1].y, 0.4);
-        ctx.lineTo(segments[i].x, segments[i].y);
-      }
-
-      ctx.strokeStyle = `hsl(${colorHue}, 100%, 50%)`;
-      ctx.lineWidth = 18;
-      ctx.lineCap = 'round';
-      ctx.stroke();
-
-      if (blastTriggered) {
-        colorHue += 30;
-        ctx.fillStyle = `hsla(${Math.random()*360}, 100%, 50%, 0.4)`;
-        ctx.fillRect(0, 0, canvas.width, canvas.height);
-      }
-    }
-
-    function update() {
-      const dx = mouseX - lastPos.x;
-      const dy = mouseY - lastPos.y;
-      const dist = Math.sqrt(dx*dx + dy*dy);
-
-      if (dist > shakeThreshold && !blastTriggered) {
-        blastTriggered = true;
-        audio.play();
-      }
-
-      segments[0].x = mouseX;
-      segments[0].y = mouseY;
-      lastPos = { x: mouseX, y: mouseY };
-
-      drawWorm();
-      requestAnimationFrame(update);
-    }
-
-    document.addEventListener('mousemove', e => {
-      mouseX = e.clientX;
-      mouseY = e.clientY;
-    });
-
-    window.addEventListener('resize', () => {
-      canvas.width = window.innerWidth;
-      canvas.height = window.innerHeight;
-    });
-
-    update();
   </script>
 </body>
 </html>
