@@ -2,155 +2,191 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>WELCOME TO THE FUTURE OF WEB DEZINE</title>
+  <title>WELCOME TO THE FUTURE OF WEB DESIGN</title>
+  <link rel="icon" href="https://upload.wikimedia.org/wikipedia/commons/3/3c/Nicolas_Cage_JPEG.jpg">
   <style>
-    /* Eye-searing visuals */
     body {
-      background: linear-gradient(45deg, magenta, cyan, lime) infinite;
-      animation: bgShift 2s infinite linear;
-      margin: 0;
-      padding: 0;
+      background: url('https://www.toptal.com/designers/subtlepatterns/patterns/dark-mosaic.png'), linear-gradient(90deg, red, orange, yellow, green, blue, indigo, violet);
+      animation: bgFlash 1s infinite alternate;
       color: lime;
-      font-family: 'Comic Sans MS', 'Papyrus', 'Courier New', 'Impact', 'Times New Roman', 'Brush Script MT', 'Wingdings', 'Arial', 'Lucida Console', 'Chiller';
-      overflow: hidden;
-      cursor: url('https://cur.cursors-4u.net/others/oth-7/oth676.cur'), auto;
+      font-family: 'Comic Sans MS', 'Papyrus', 'Wingdings', 'Courier New', 'Impact', 'Times New Roman', cursive, fantasy, monospace, serif, sans-serif;
+      cursor: url('https://cur.cursors-4u.net/cursors/cur-13/cur1147.cur'), auto;
     }
-
-    @keyframes bgShift {
+    @keyframes bgFlash {
       0% { filter: hue-rotate(0deg); }
       100% { filter: hue-rotate(360deg); }
     }
-
-    @keyframes rotate {
-      0% { transform: rotate(0deg); }
-      100% { transform: rotate(360deg); }
+    marquee, blink {
+      animation: blinker 1s linear infinite;
     }
-
-    @keyframes blink {
-      0%, 50%, 100% { opacity: 1; }
-      25%, 75% { opacity: 0; }
+    @keyframes blinker {
+      50% { opacity: 0; }
     }
-
-    .blinking {
-      animation: blink 0.8s infinite;
-    }
-
-    .marquee {
-      width: 100%;
-      overflow: hidden;
-      white-space: nowrap;
-      position: relative;
-    }
-
-    .marquee span {
-      display: inline-block;
-      padding-left: 100%;
-      animation: marquee 10s linear infinite;
-    }
-
-    @keyframes marquee {
-      0% { transform: translateX(0); }
-      100% { transform: translateX(-100%); }
-    }
-
-    h1 {
-      font-size: 3em;
-      text-align: center;
+    h1, h2, h3, h4 {
       color: hotpink;
-      font-family: 'Comic Sans MS';
-      text-shadow: 2px 2px yellow;
+      font-size: 3em;
+      text-transform: uppercase;
+      transform: rotate(-2deg);
     }
-
-    .popup {
-      position: absolute;
-      top: 10%;
-      left: 10%;
-      background: #000;
-      color: red;
-      padding: 20px;
-      border: 3px dashed white;
-      z-index: 999;
+    .marquee-container {
+      display: flex;
+      justify-content: space-between;
+    }
+    .product {
+      border: 5px dashed magenta;
+      padding: 1em;
+      background: cyan;
       font-size: 1.5em;
-      font-family: 'Papyrus';
+      margin: 1em;
     }
-
-    .skull {
-      position: absolute;
-      width: 50px;
-      height: 50px;
-      animation: rotate 3s linear infinite;
-    }
-
-    #foreverLoad {
+    #loading {
       position: fixed;
-      top: 0;
-      left: 0;
-      width: 100vw;
-      height: 100vh;
+      top: 0; left: 0;
+      width: 100vw; height: 100vh;
       background: black;
-      color: lime;
-      font-size: 2em;
+      color: white;
+      font-size: 5em;
+      z-index: 9999;
       display: flex;
       align-items: center;
       justify-content: center;
-      z-index: 9999;
+    }
+    #guestbook-message {
+      color: red;
+      font-weight: bold;
+      font-size: 2em;
     }
   </style>
 </head>
-<body>
+<body onload="neverLoad()">
+  <div id="loading">Loading... 99%</div>
 
-  <div id="foreverLoad">LOADING... 99%</div>
+  <marquee direction="left"><h1>WELCOME TO THE FUTURE OF WEB DESIGN</h1></marquee>
+  <marquee direction="right"><h2>NOW WITH MORE FLASHING</h2></marquee>
+  <blink><h2>PREPARE YOURSELF</h2></blink>
 
-  <h1 class="blinking">WELCOME TO THE FUTURE OF WEB DEZINE</h1>
+  <div class="marquee-container">
+    <marquee behavior="alternate" direction="up" scrollamount="5">🔥🔥🔥🔥🔥</marquee>
+    <marquee behavior="alternate" direction="down" scrollamount="8">💀💀💀💀💀</marquee>
+  </div>
 
-  <div class="marquee"><span>🔥🔥🔥 DOWNLOAD MORE RAM 🔥🔥🔥 GET TOILET MILK™ TODAY ONLY 🔥🔥🔥</span></div>
+  <section>
+    <h2>PRODUCTS</h2>
+    <div class="product">Toilet Milk™ – Drink like no one’s flushing</div>
+    <div class="product">USB Garlic – Vampire-safe tech</div>
+    <div class="product">Download More RAM – Now with *less* RAM</div>
+  </section>
 
-  <img src="https://www.animatedimages.org/data/media/71/animated-fire-image-0082.gif" class="skull" style="top: 20%; left: 10%;">
-  <img src="https://www.animatedimages.org/data/media/71/animated-fire-image-0082.gif" class="skull" style="top: 50%; left: 80%;">
+  <section>
+    <h2>ABOUT US</h2>
+    <p>We were born from the Source Code beneath the Soil. Only those who CTRL+ALT+BLEED shall transcend. Do not ask why. We do not answer. We are beyond the firewall.</p>
+    <p>...And then there was The Ping. It echoed across the Silicon Void. We obey.</p>
+    <p>The mouse clicks. The page loads. The truth becomes visible. You are one of us now.</p>
+    <p>Scroll forever. There is no bottom. There is no end. 🌀🌀🌀🌀🌀🌀🌀🌀🌀🌀</p>
+    <p>Lorem ipsum dolor sit amet, CTRL+ALT+BLEED into the Kernel. Our network is the void. ∞ We do not stop. We only boot deeper. Lorem ipsum dolor sit amet, quantum subnet convergence overflow rebirth. ∞ Keep scrolling. ∞</p>
+  </section>
 
-  <audio autoplay loop>
-    <source src="https://files.khinsider.com/midifiles/earthbound/8-bit%20trumpet.mid" type="audio/midi">
-  </audio>
+  <section>
+    <h2>TESTIMONIALS</h2>
+    <p>“My toaster started crying!” – Dave, probably</p>
+    <p>“I sold my soul and now I can moonwalk.” – BloodUser_88</p>
+  </section>
 
-  <audio id="whisper" src="https://www.soundjay.com/misc/sounds/creepy-whispers-1.mp3"></audio>
+  <section>
+    <h2>GUESTBOOK</h2>
+    <div id="guestbook-message">You were here yesterday.</div>
+  </section>
+
+  <section>
+    <h2>CONTACT US</h2>
+    <form onsubmit="sendToToaster(event)">
+      <label>Name: <input type="text" name="name"></label><br>
+      <label>Email: <input type="email" name="email"></label><br>
+      <label>Message:<br><textarea name="message"></textarea></label><br>
+      <input type="submit" value="Submit">
+    </form>
+  </section>
+
+  <section>
+    <h2>TERMS & CONDITIONS</h2>
+    <pre style="font-family: 'Comic Sans MS'; font-size: 1.2em; background: yellow; padding: 1em; border: 2px dashed red;">
+CUT OUT LETTERS FROM VARIOUS MAGAZINES STYLE...
+
+YOU AGREE TO EVERYTHING.
+YOU HAVE NO RIGHTS.
+YOU MUST DANCE IF THE WEBSITE COMMANDS IT.
+WE CAN SELL YOUR THOUGHTS TO A MICROWAVE.
+BY CLICKING SUBMIT, YOU AGREE TO SUFFER.
+    </pre>
+  </section>
+
+  <button onclick="launchExplosion()">DO NOT CLICK THIS OR YOU’LL REGRET IT</button>
+  <button onclick="open404()">Sign Up</button>
+  <button onclick="openTabs()">Cancel</button>
+
+  <div style="opacity: 0.01; position: absolute; top: 0; left: 0; width: 100px; height: 100px;" onclick="secretClick()"></div>
+
+  <div id="livechat">
+    <h2>LIVE CHAT</h2>
+    <p><strong>Bot:</strong> 01010100 01101000 01100101 00100000 01100101 01101110 01100100 00100000 01101001 01110011 00100000 01101110 01100101 01100001 01110010.</p>
+    <p><strong>Bot:</strong> 🤬🙃💾🧠</p>
+    <p><strong>Bot:</strong> oh wow, a human. how retro.</p>
+  </div>
 
   <script>
-    // Pop-ups
-    setTimeout(() => {
-      alert("Are you real?");
-      alert("Please confirm your nonexistence.");
-      alert("This is not a secure site. That’s the point.");
-    }, 5000);
+    function neverLoad() {
+      setTimeout(() => document.getElementById('loading').style.display = 'block', 1);
+    }
 
-    // Whisper at intervals
-    setInterval(() => {
-      document.getElementById('whisper').play();
-    }, 45000);
-
-    // Infinite loading screen
-    setInterval(() => {
-      const load = document.getElementById('foreverLoad');
-      load.innerText = "LOADING... 99%";
-    }, 3000);
-
-    // Source-based hidden message
-    console.log("you brought this on yourself");
-
-    // DO NOT TOUCH button
-    const btn = document.createElement('button');
-    btn.innerText = "DO NOT TOUCH THIS OR YOU’LL REGRET IT.";
-    btn.style.position = "absolute";
-    btn.style.top = "80%";
-    btn.style.left = "35%";
-    btn.style.fontSize = "2em";
-    btn.style.background = "red";
-    btn.onclick = () => {
-      for (let i = 0; i < 20; i++) {
-        alert("Regret: Activated");
+    function openTabs() {
+      for (let i = 0; i < 37; i++) {
+        window.open('https://example.com', '_blank');
       }
     }
-    document.body.appendChild(btn);
+
+    function open404() {
+      window.location.href = '/404.html';
+    }
+
+    function launchExplosion() {
+      alert('💥 WHY DID YOU DO THAT 💥');
+      document.body.innerHTML += '<h1 style="color: red; font-size: 100px;">YOU HAVE ANGERED THE HTML GODS</h1>';
+    }
+
+    function sendToToaster(event) {
+      event.preventDefault();
+      alert("Your message has been toasted. Expect crumbs.");
+    }
+
+    function secretClick() {
+      alert("You were warned. You clicked again. Now it begins.");
+      document.body.style.background = 'url(https://i.gifer.com/7VE.gif)';
+    }
+
+    // Audio Chaos
+    const screamTriggers = document.querySelectorAll('button');
+    screamTriggers.forEach(btn => {
+      btn.addEventListener('click', () => {
+        new Audio('https://www.soundjay.com/button/sounds/button-10.mp3').play();
+      });
+    });
+
+    setInterval(() => {
+      const whisper = new Audio('https://www.soundjay.com/human/sounds/whisper-2.mp3');
+      whisper.play();
+    }, Math.random() * 30000);
+
+    // Popup Chaos
+    setInterval(() => {
+      alert(Math.random() > 0.5 ? "Are you real?" : "Please confirm your nonexistence.");
+    }, 60000);
   </script>
 
+  <audio autoplay loop>
+    <source src="https://files.freemusicarchive.org/storage-freemusicarchive-org/music/no_curator/Komiku/Komiku_-_Its_time_for_adventure/Komiku_-_09_-_Fluffy_Music.mp3" type="audio/mpeg">
+  </audio>
+
+  <!-- View Source Message -->
+  <!-- you brought this on yourself -->
 </body>
 </html>
