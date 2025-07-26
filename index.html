@@ -1,177 +1,162 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Ultimate Chaos 2.0</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>404Forever</title>
   <style>
-    body {
+    html, body {
       margin: 0;
       padding: 0;
       overflow: hidden;
+      background: black;
+      color: lime;
       font-family: "Comic Sans MS", cursive, sans-serif;
-      animation: spinBackground 5s linear infinite;
-    }
-    @keyframes spinBackground {
-      0% { background-color: red; }
-      25% { background-color: lime; }
-      50% { background-color: blue; }
-      75% { background-color: yellow; }
-      100% { background-color: red; }
-    }
-    .chaos {
-      position: absolute;
-      top: 0;
-      left: 0;
-      width: 100vw;
+      text-align: center;
       height: 100vh;
-      pointer-events: none;
+      transition: background 0.2s;
     }
-    .flash {
-      animation: flashColors 0.5s infinite;
+    h1 {
+      margin-top: 10vh;
+      font-size: 4rem;
+      animation: glitch 1s infinite;
     }
-    @keyframes flashColors {
-      0% { filter: hue-rotate(0deg); }
-      50% { filter: hue-rotate(180deg); }
-      100% { filter: hue-rotate(360deg); }
+    button {
+      padding: 20px;
+      font-size: 1.5rem;
+      cursor: pointer;
+      position: absolute;
+      transition: top 0.2s, left 0.2s;
     }
-    .marquee {
-      position: fixed;
-      white-space: nowrap;
-      animation: scroll 5s linear infinite;
-      font-size: 3em;
-      color: #fff;
-      text-shadow: 2px 2px 10px black;
+    #progressContainer {
+      width: 80%;
+      height: 30px;
+      border: 2px solid lime;
+      margin: 40px auto;
+      background: #111;
     }
-    @keyframes scroll {
-      0% { transform: translateX(100%); }
-      100% { transform: translateX(-100%); }
+    #progressBar {
+      height: 100%;
+      background: lime;
+      width: 0%;
     }
-    .spinning {
-      animation: spin 2s linear infinite;
-    }
-    @keyframes spin {
-      from { transform: rotate(0deg); }
-      to { transform: rotate(360deg); }
-    }
-    .wobble {
-      animation: wobble 1s ease-in-out infinite;
-    }
-    @keyframes wobble {
-      0%, 100% { transform: translateY(0); }
-      50% { transform: translateY(-20px); }
+    @keyframes glitch {
+      0% { text-shadow: 2px 2px red; }
+      50% { text-shadow: -2px -2px blue; }
+      100% { text-shadow: 2px 2px red; }
     }
     .popup {
       position: absolute;
-      background: rgba(255,0,255,0.8);
+      background: rgba(0,0,0,0.8);
       color: #fff;
-      padding: 10px;
-      font-size: 1.5em;
-      border-radius: 10px;
-      transform: rotate(-20deg);
-      animation: floatPopup 3s infinite;
-    }
-    @keyframes floatPopup {
-      0% { transform: translateY(0) rotate(-20deg); }
-      50% { transform: translateY(-20px) rotate(20deg); }
-      100% { transform: translateY(0) rotate(-20deg); }
+      padding: 15px;
+      border: 2px solid red;
+      z-index: 9999;
+      font-size: 1rem;
     }
   </style>
 </head>
 <body>
-  <audio autoplay loop>
-    <source src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3" type="audio/mpeg">
-  </audio>
-
-  <div class="chaos flash">
-    <canvas id="chaosCanvas"></canvas>
+  <h1>404Forever</h1>
+  <div id="progressContainer">
+    <div id="progressBar"></div>
   </div>
-
-  <div class="marquee spinning" style="top: 10%">🌀 THE INTERNET IS MELTING 🌀</div>
-  <div class="marquee wobble" style="top: 30%; animation-duration: 3s">💥 CHAOS MODE ENABLED 💥</div>
-  <div class="marquee spinning" style="top: 50%; animation-duration: 4s">🔥 EVERYTHING IS LOUD 🔥</div>
-  <div class="marquee wobble" style="top: 70%; animation-duration: 2s">🌪️ RUN WHILE YOU CAN 🌪️</div>
+  <button id="chaosButton">Click me... or don’t.</button>
 
   <script>
-    const canvas = document.getElementById('chaosCanvas');
-    const ctx = canvas.getContext('2d');
-    canvas.width = window.innerWidth;
-    canvas.height = window.innerHeight;
+    const button = document.getElementById('chaosButton');
+    const progressBar = document.getElementById('progressBar');
 
-    const particles = [];
-    for (let i = 0; i < 300; i++) {
-      particles.push({
-        x: Math.random() * canvas.width,
-        y: Math.random() * canvas.height,
-        r: Math.random() * 10 + 2,
-        dx: Math.random() * 4 - 2,
-        dy: Math.random() * 4 - 2
-      });
-    }
-
-    function drawParticles() {
-      ctx.clearRect(0, 0, canvas.width, canvas.height);
-      particles.forEach(p => {
-        ctx.beginPath();
-        ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
-        ctx.fillStyle = `rgba(${Math.floor(Math.random()*255)}, ${Math.floor(Math.random()*255)}, ${Math.floor(Math.random()*255)}, 0.8)`;
-        ctx.fill();
-
-        p.x += p.dx;
-        p.y += p.dy;
-
-        if (p.x < 0 || p.x > canvas.width) p.dx *= -1;
-        if (p.y < 0 || p.y > canvas.height) p.dy *= -1;
-      });
-      requestAnimationFrame(drawParticles);
-    }
-
-    drawParticles();
-
-    // Mouse trail chaos
-    const trail = [];
-    window.addEventListener('mousemove', e => {
-      trail.push({ x: e.clientX, y: e.clientY, time: Date.now() });
-      if (trail.length > 150) trail.shift();
+    // Make button run from the cursor
+    document.addEventListener('mousemove', (e) => {
+      const rect = button.getBoundingClientRect();
+      const dx = e.clientX - (rect.left + rect.width / 2);
+      const dy = e.clientY - (rect.top + rect.height / 2);
+      const distance = Math.sqrt(dx * dx + dy * dy);
+      if (distance < 150) {
+        const offsetX = (Math.random() - 0.5) * 500;
+        const offsetY = (Math.random() - 0.5) * 500;
+        button.style.top = `${Math.max(0, Math.min(window.innerHeight - 50, e.clientY + offsetY))}px`;
+        button.style.left = `${Math.max(0, Math.min(window.innerWidth - 200, e.clientX + offsetX))}px`;
+      }
     });
 
-    function drawTrail() {
-      trail.forEach(point => {
-        ctx.beginPath();
-        ctx.arc(point.x, point.y, 5, 0, 2 * Math.PI);
-        ctx.fillStyle = `hsl(${(Date.now() - point.time) % 360}, 100%, 50%)`;
-        ctx.fill();
-      });
-      requestAnimationFrame(drawTrail);
-    }
-    drawTrail();
+    // Fake loading bar that never finishes
+    let progress = 0;
+    setInterval(() => {
+      if (progress < 99.9) {
+        progress += Math.random() * 0.3;
+        progressBar.style.width = `${progress}%`;
+      } else {
+        progress = 0;
+        progressBar.style.width = `0%`;
+      }
+    }, 200);
 
-    // Random Popups
-    function createPopup() {
-      const popup = document.createElement("div");
-      popup.className = "popup";
-      popup.innerText = "⚠ CHAOS ALERT!";
-      popup.style.top = Math.random() * window.innerHeight + 'px';
-      popup.style.left = Math.random() * window.innerWidth + 'px';
-      document.body.appendChild(popup);
-
+    // Button chaos
+    button.addEventListener('click', () => {
+      alert("WRONG BUTTON. Now you’ve activated trap mode.");
+      document.body.style.background = 'red';
+      button.innerText = "Oops";
+      new Audio('https://www.myinstants.com/media/sounds/windows-error-sound.mp3').play();
       setTimeout(() => {
-        popup.remove();
-      }, 5000);
+        const goat = new Audio('https://www.myinstants.com/media/sounds/goat.mp3');
+        goat.play();
+        spawnPopup("WHY ARE YOU STILL HERE?");
+      }, 1500);
+    });
+
+    // Cursor flip randomly
+    setInterval(() => {
+      const flip = Math.random() < 0.5 ? 'none' : 'scaleX(-1)';
+      document.body.style.transform = flip;
+    }, 2000);
+
+    // Background chaos
+    setInterval(() => {
+      document.body.style.backgroundColor = `hsl(${Math.random() * 360}, 100%, 10%)`;
+    }, 300);
+
+    // Rickroll easter egg
+    setTimeout(() => {
+      const rick = new Audio('https://www.myinstants.com/media/sounds/rick-roll.mp3');
+      rick.play();
+      spawnPopup("🎵 Never gonna give you up...");
+    }, 8000);
+
+    // Pop-up generator
+    function spawnPopup(text) {
+      const popup = document.createElement('div');
+      popup.classList.add('popup');
+      popup.innerText = text;
+      popup.style.top = Math.random() * (window.innerHeight - 100) + 'px';
+      popup.style.left = Math.random() * (window.innerWidth - 200) + 'px';
+      document.body.appendChild(popup);
+      setTimeout(() => popup.remove(), 5000);
     }
 
-    setInterval(createPopup, 300);
+    // Infinite window spawner (browser dependent)
+    setInterval(() => {
+      if (Math.random() < 0.02) {
+        window.open('https://theuselessweb.com/', '_blank');
+      }
+    }, 4000);
 
-    // Keyboard spam
-    document.addEventListener("keydown", e => {
-      const el = document.createElement("div");
-      el.className = "popup";
-      el.innerText = `Key: ${e.key}`;
-      el.style.top = Math.random() * window.innerHeight + 'px';
-      el.style.left = Math.random() * window.innerWidth + 'px';
-      document.body.appendChild(el);
-      setTimeout(() => el.remove(), 3000);
-    });
+    // Uncloseable alert loop after time
+    setTimeout(() => {
+      let count = 0;
+      const interval = setInterval(() => {
+        alert("System Message: " + [
+          "Error 0x0000DEAD",
+          "Mind not found.",
+          "The cake is a lie.",
+          "Existence compromised.",
+          "Clicking was a mistake."
+        ][Math.floor(Math.random() * 5)]);
+        count++;
+        if (count > 5) clearInterval(interval);
+      }, 4000);
+    }, 12000);
   </script>
 </body>
 </html>
